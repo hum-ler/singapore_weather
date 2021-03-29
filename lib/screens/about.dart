@@ -1,30 +1,28 @@
-![Banner](doc/images/banner-758.png)
+import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-# Singapore Weather
+import 'about/header.dart';
 
-This app shows the weather at your current location. *Works in Singapore only*.
-
-![Screenshot 1](doc/images/screenshot-1-250.png)
-![Screenshot 2](doc/images/screenshot-2-250.png)
-![Screenshot 3](doc/images/screenshot-3-250.png)
-
-## Requirements
-
-Runs on Android 9 (Pie) or newer.
-
-Requires location and internet access.
-
-## Build
-
-Use the latest [Flutter SDK](https://flutter.dev/docs/get-started/install).
-
-It is strongly recommended to use [Visual Studio Code](https://code.visualstudio.com/) with the Dart and Flutter extensions. Check out this [guide](https://flutter.dev/docs/development/tools/vs-code).
-
-If debugging or building for the first time, some additional source files have to generated first. Run the command:
-```
-flutter pub run build_runner build
-```
-
+/// The about screen.
+class About extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('About This App'),
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 80.0,
+            width: double.infinity,
+            child: Header(),
+          ),
+          Expanded(
+            child: Center(
+              child: Markdown(
+                data: '''
 > ## How to use
 >
 > - Drag downwards to refresh data.
@@ -50,3 +48,22 @@ The app uses [Data.gov.sg](https://data.gov.sg/) (see relevant [Privacy Statemen
 ## License
 
 Source code is available on [GitHub](https://github.com/hum-ler/singapore_weather) under [The MIT License](https://opensource.org/licenses/MIT).
+''',
+                onTapLink: (_, url, __) async {
+                  if (url != null && await canLaunch(url)) launch(url);
+                },
+                styleSheet: MarkdownStyleSheet(
+                  blockquoteDecoration: BoxDecoration(
+                    color: Colors.deepOrange.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  blockquotePadding: const EdgeInsets.all(20.0),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
