@@ -4,6 +4,7 @@ part 'json_pm2_5_model.g.dart';
 
 /// Model of the PM2.5 data as returned (in JSON) by the weather service.
 @JsonSerializable()
+// ignore: camel_case_types
 class JsonPM2_5Model {
   @JsonKey(name: 'region_metadata')
   final List<JsonPM2_5RegionMetadata> regionMetadata;
@@ -25,6 +26,7 @@ class JsonPM2_5Model {
 }
 
 @JsonSerializable()
+// ignore: camel_case_types
 class JsonPM2_5RegionMetadata {
   final String name;
 
@@ -42,6 +44,7 @@ class JsonPM2_5RegionMetadata {
 }
 
 @JsonSerializable()
+// ignore: camel_case_types
 class JsonPM2_5LabelLocation {
   final double latitude;
 
@@ -58,6 +61,7 @@ class JsonPM2_5LabelLocation {
 }
 
 @JsonSerializable()
+// ignore: camel_case_types
 class JsonPM2_5Item {
   final DateTime timestamp;
 
@@ -78,6 +82,7 @@ class JsonPM2_5Item {
 }
 
 @JsonSerializable()
+// ignore: camel_case_types
 class JsonPM2_5Readings {
   @JsonKey(name: 'pm25_one_hourly')
   final Map<String, int> pm2_5OneHourly;
@@ -90,6 +95,7 @@ class JsonPM2_5Readings {
 }
 
 @JsonSerializable()
+// ignore: camel_case_types
 class JsonPM2_5ApiInfo {
   final String status;
 

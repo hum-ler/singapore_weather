@@ -10,7 +10,7 @@ This app shows the weather at your current location. *Works in Singapore only*.
 
 ## Requirements
 
-Runs on Android 9 (Pie) or newer.
+Runs on Android 11 or newer.
 
 Requires location and internet access.
 
@@ -18,7 +18,7 @@ Requires location and internet access.
 
 Use the latest [Flutter SDK](https://flutter.dev/docs/get-started/install).
 
-It is strongly recommended to use [Visual Studio Code](https://code.visualstudio.com/) with the Dart and Flutter extensions. Check out this [guide](https://flutter.dev/docs/development/tools/vs-code).
+It is strongly recommended to use [Visual Studio Code](https://code.visualstudio.com/) with the Dart, Flutter, and Flutter Intl extensions. Check out this [guide](https://flutter.dev/docs/development/tools/vs-code).
 
 If debugging or building for the first time, some additional source files have to generated first. Run the command:
 ```

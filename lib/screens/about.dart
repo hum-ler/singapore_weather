@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../generated/l10n.dart';
 import 'about/header.dart';
 
 /// The about screen.
@@ -10,7 +11,8 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About This App'),
+        title: Text(S.of(context).aboutScreenTitle),
+        elevation: 0.0,
       ),
       body: Column(
         children: [
@@ -20,9 +22,8 @@ class About extends StatelessWidget {
             child: Header(),
           ),
           Expanded(
-            child: Center(
-              child: Markdown(
-                data: '''
+            child: Markdown(
+              data: '''
 > ## How to use
 >
 > - Drag downwards to refresh data.
@@ -49,15 +50,17 @@ The app uses [Data.gov.sg](https://data.gov.sg/) (see relevant [Privacy Statemen
 
 Source code is available on [GitHub](https://github.com/hum-ler/singapore_weather) under [The MIT License](https://opensource.org/licenses/MIT).
 ''',
-                onTapLink: (_, url, __) async {
-                  if (url != null && await canLaunch(url)) launch(url);
-                },
-                styleSheet: MarkdownStyleSheet(
-                  blockquoteDecoration: BoxDecoration(
-                    color: Colors.deepOrange.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  blockquotePadding: const EdgeInsets.all(20.0),
+              onTapLink: (_, url, __) async {
+                if (url != null && await canLaunch(url)) launch(url);
+              },
+              styleSheet: MarkdownStyleSheet(
+                blockquoteDecoration: BoxDecoration(
+                  color: Colors.deepOrange.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                blockquotePadding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
                 ),
               ),
             ),

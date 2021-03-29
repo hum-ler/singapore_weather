@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
+import 'generated/l10n.dart';
 import 'models/weather_model.dart';
 import 'screens/home.dart';
 import 'services/geolocation.dart';
@@ -25,7 +27,14 @@ void main() {
         ),
       ],
       child: MaterialApp(
-        theme: ThemeData.dark(),
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        theme: ThemeData.dark().copyWith(primaryColor: Colors.deepOrange),
         home: Home(),
       ),
     ),

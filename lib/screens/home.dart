@@ -1,6 +1,8 @@
 import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
+import '../generated/l10n.dart';
+
 import 'about.dart';
 import 'home/details.dart';
 import 'home/handle.dart';
@@ -12,10 +14,10 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Singapore Weather'),
+        title: Text(S.of(context).appTitle),
         actions: [
           IconButton(
-            icon: Icon(Icons.info),
+            icon: Icon(Icons.help),
             onPressed: () => _onAboutPressed(context),
           ),
         ],

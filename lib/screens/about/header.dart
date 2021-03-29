@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:weather_icons/weather_icons.dart';
 
+import '../../generated/l10n.dart';
+
 /// Draws the header (below the app bar) on the about screen.
 class Header extends StatefulWidget {
   const Header({
@@ -40,7 +42,7 @@ class _HeaderState extends State<Header> {
           ),
           SizedBox(width: 16.0),
           Text(
-            'Singapore Weather' + (version != null ? ' $version' : ''),
+            S.of(context).appTitle + (version != null ? ' $version' : ''),
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,

@@ -12,7 +12,7 @@ class Handle extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         Container(
-          height: 200.0,
+          height: 250.0,
           color: Colors.transparent,
         ),
         Icon(Icons.drag_handle),

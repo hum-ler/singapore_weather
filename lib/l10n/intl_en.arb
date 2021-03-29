@@ -1,0 +1,16 @@
+{
+  "aboutScreenTitle": "About This App",
+  "appTitle": "Singapore Weather",
+  "forecastTileLabel": "{type, select, predawn{Predawn} morning{Morning} afternoon{Afternoon} night{Night} other{Other}}",
+  "@forecastTileLabel": {
+    "description": "The type of the forecast, typically a forecasted time period.",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "geolocationErrorPrefix": "Cannot get user location — ",
+  "retryButtonLabel": "RETRY",
+  "weatherErrorPrefix": "Cannot get weather data — "
+}

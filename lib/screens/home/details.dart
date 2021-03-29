@@ -16,9 +16,9 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
       child: Container(
-        height: 200.0,
+        height: 170.0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
