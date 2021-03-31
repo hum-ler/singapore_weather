@@ -64,7 +64,7 @@ class Source {
           location: location,
         );
 
-  /// The effective range for each [SourceType].
+  /// The effective range for each [SourceType] in km.
   static const Map<SourceType, double> _effectiveRange = {
     SourceType.station: 10.0,
     SourceType.area: 10.0,

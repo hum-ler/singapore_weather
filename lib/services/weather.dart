@@ -25,10 +25,13 @@ class Weather {
 
   const Weather(this.data, this.location);
 
-  Future<void> refresh() async {
+  /// Retrieve weather data from the online data service.
+  ///
+  /// Caller must provide [client] for persistent connection. After this method
+  /// returns, caller must close the connection by calling [client.close()].
+  Future<void> refresh(Client client) async {
     final Geoposition userLocation = await location.getCurrentLocation();
 
-    Client client = Client();
     final JsonReadingModel temperatureModel;
     final JsonReadingModel rainModel;
     final JsonReadingModel humidityModel;
@@ -37,42 +40,38 @@ class Weather {
     final JsonPM2_5Model pm2_5Model;
     final Json2HourForecastModel conditionModel;
     final Json24HourForecastModel forecastModel;
-    try {
-      temperatureModel = await _fetchJsonReadingModel(
-        client: client,
-        url: _temperatureUrl,
-      );
-      rainModel = await _fetchJsonReadingModel(
-        client: client,
-        url: _rainUrl,
-      );
-      humidityModel = await _fetchJsonReadingModel(
-        client: client,
-        url: _humidityUrl,
-      );
-      windSpeedModel = await _fetchJsonReadingModel(
-        client: client,
-        url: _windSpeedUrl,
-      );
-      windDirectionModel = await _fetchJsonReadingModel(
-        client: client,
-        url: _windDirectionUrl,
-      );
-      pm2_5Model = await _fetchJsonPM25Model(
-        client: client,
-        url: _pm2_5Url,
-      );
-      conditionModel = await _fetchJson2HourForecastModel(
-        client: client,
-        url: _2HourForecastUrl,
-      );
-      forecastModel = await _fetchJson24HourForecastModel(
-        client: client,
-        url: _24HourForecastUrl,
-      );
-    } finally {
-      client.close();
-    }
+    temperatureModel = await _fetchJsonReadingModel(
+      client: client,
+      url: _temperatureUrl,
+    );
+    rainModel = await _fetchJsonReadingModel(
+      client: client,
+      url: _rainUrl,
+    );
+    humidityModel = await _fetchJsonReadingModel(
+      client: client,
+      url: _humidityUrl,
+    );
+    windSpeedModel = await _fetchJsonReadingModel(
+      client: client,
+      url: _windSpeedUrl,
+    );
+    windDirectionModel = await _fetchJsonReadingModel(
+      client: client,
+      url: _windDirectionUrl,
+    );
+    pm2_5Model = await _fetchJsonPM25Model(
+      client: client,
+      url: _pm2_5Url,
+    );
+    conditionModel = await _fetchJson2HourForecastModel(
+      client: client,
+      url: _2HourForecastUrl,
+    );
+    forecastModel = await _fetchJson24HourForecastModel(
+      client: client,
+      url: _24HourForecastUrl,
+    );
 
     final Reading temperature = _deriveNearestReading(
       type: ReadingType.temperature,
@@ -136,7 +135,7 @@ class Weather {
     try {
       return JsonReadingModel.fromJson(await httpGetJsonData(url, client));
     } catch (e) {
-      throw WeatherException(e.toString());
+      return Future.error(WeatherException(e.toString()));
     }
   }
 
@@ -154,7 +153,7 @@ class Weather {
     try {
       return JsonPM2_5Model.fromJson(await httpGetJsonData(url, client));
     } catch (e) {
-      throw WeatherException(e.toString());
+      return Future.error(WeatherException(e.toString()));
     }
   }
 
@@ -171,7 +170,7 @@ class Weather {
         await httpGetJsonData(url, client),
       );
     } catch (e) {
-      throw WeatherException(e.toString());
+      return Future.error(WeatherException(e.toString()));
     }
   }
 
@@ -188,7 +187,7 @@ class Weather {
         await httpGetJsonData(url, client),
       );
     } catch (e) {
-      throw WeatherException(e.toString());
+      return Future.error(WeatherException(e.toString()));
     }
   }
 

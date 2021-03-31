@@ -34,6 +34,7 @@
 # Generated source
 lib/generated/
 *.g.dart
+*.mocks.dart
 
 # Web related
 lib/generated_plugin_registrant.dart

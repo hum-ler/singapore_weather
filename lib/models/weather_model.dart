@@ -58,14 +58,14 @@ class WeatherModel extends ChangeNotifier {
 
   void refresh({
     required DateTime timestamp,
-    Reading? temperature,
-    Reading? rain,
-    Reading? humidity,
-    Reading? windSpeed,
-    Reading? windDirection,
-    Reading? pm2_5,
-    Condition? condition,
-    Iterable<Forecast>? forecast,
+    required Reading? temperature,
+    required Reading? rain,
+    required Reading? humidity,
+    required Reading? windSpeed,
+    required Reading? windDirection,
+    required Reading? pm2_5,
+    required Condition? condition,
+    required Iterable<Forecast>? forecast,
   }) {
     _timestamp = timestamp;
     _temperature = temperature;

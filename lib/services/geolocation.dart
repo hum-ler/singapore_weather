@@ -23,7 +23,7 @@ class Geolocation {
     if (!serviceEnabled) {
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
-        throw GeolocationException('service disabled');
+        return Future.error(GeolocationException('service disabled'));
       }
     }
 
@@ -34,40 +34,31 @@ class Geolocation {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted &&
           permissionGranted != PermissionStatus.grantedLimited) {
-        throw GeolocationException('permission denied');
+        return Future.error(GeolocationException('permission denied'));
       }
     }
 
-    return location
-        .getLocation()
-        .then(
-          (locationData) {
-            if (locationData.latitude == null ||
-                locationData.longitude == null) {
-              throw GeolocationException('unexpected response from service');
-            }
+    final LocationData locationData;
+    try {
+      locationData =
+          await location.getLocation().timeout(const Duration(seconds: 10));
+      // Rethrow any errors as GeolocationExceptions.
+    } on TimeoutException {
+      return Future.error(GeolocationException('timed out'));
+    } catch (e) {
+      return Future.error(GeolocationException(e.toString()));
+    }
 
-            return Geoposition(
-              latitude: locationData.latitude!,
-              longitude: locationData.longitude!,
-            );
-          },
-        )
-        .timeout(const Duration(seconds: 10))
-        // Rethrow any errors as GeolocationExceptions.
-        .onError<TimeoutException>(
-          (e, _) => throw GeolocationException('timed out'),
-        )
-        .onError(
-          (e, _) {
-            if (e != null) {
-              throw GeolocationException(e.toString());
-            } else {
-              throw GeolocationException('unknown error');
-            }
-          },
-          test: (e) => !(e is GeolocationException),
-        );
+    if (locationData.latitude == null || locationData.longitude == null) {
+      return Future.error(
+        GeolocationException('unexpected response from service'),
+      );
+    }
+
+    return Geoposition(
+      latitude: locationData.latitude!,
+      longitude: locationData.longitude!,
+    );
   }
 }
 

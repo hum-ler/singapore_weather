@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 import '../../generated/l10n.dart';
@@ -140,22 +141,24 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
   /// _refreshIndicatorKey.currentState!.show(). Calling this method directly
   /// will not show the progress on the screen.
   Future<void> _onRefresh(BuildContext context) async {
-    await Provider.of<Weather>(context, listen: false)
-        .refresh()
-        .onError<GeolocationException>(
-          (e, _) => _printError(
-            context,
-            S.of(context).geolocationErrorPrefix + e.message,
-            retry: () => _refreshIndicatorKey.currentState!.show(),
-          ),
-        )
-        .onError<WeatherException>(
-          (e, _) => _printError(
-            context,
-            S.of(context).weatherErrorPrefix + e.message,
-            retry: () => _refreshIndicatorKey.currentState!.show(),
-          ),
-        );
+    Client client = Client();
+    try {
+      await Provider.of<Weather>(context, listen: false).refresh(client);
+    } on GeolocationException catch (e) {
+      _printError(
+        context,
+        S.of(context).geolocationErrorPrefix + e.message,
+        retry: () => _refreshIndicatorKey.currentState!.show(),
+      );
+    } on WeatherException catch (e) {
+      _printError(
+        context,
+        S.of(context).weatherErrorPrefix + e.message,
+        retry: () => _refreshIndicatorKey.currentState!.show(),
+      );
+    } finally {
+      client.close();
+    }
   }
 
   /// Displays an error message in the snack bar with a retry option.
@@ -169,7 +172,7 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
         content: Text(message),
         action: retry != null
             ? SnackBarAction(
-                label: S.of(context).retryButtonLabel,
+                label: S.of(context).errorRetryButtonLabel,
                 onPressed: retry,
               )
             : null,

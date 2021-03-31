@@ -2,6 +2,8 @@ targets:
   $default:
     builders:
       json_serializable:
+        generate_for:
+        - lib/models/json_*.dart
         options:
           any_map: false
           checked: true
@@ -13,3 +15,6 @@ targets:
           generic_argument_factories: false
           ignore_unannotated: false
           include_if_null: true
+      mockito|mockBuilder:
+        generate_for:
+        - test/*/*_test.dart
