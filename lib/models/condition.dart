@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_icons/weather_icons.dart';
 
+import '../config.dart' as K;
 import 'geoposition.dart';
 import 'source.dart';
 
@@ -22,7 +23,7 @@ class Condition {
   final Geoposition userLocation;
 
   /// The validity period of this condition.
-  Duration get validityPeriod => _validityPeriod;
+  Duration get validityPeriod => K.conditionValidityPeriod;
 
   /// The expiry time of this condition.
   final DateTime expiry;
@@ -50,19 +51,15 @@ class Condition {
   /// The background image that represents this condition.
   ///
   /// Images must be found inside the assets/images folder.
-  AssetImage get background =>
-      AssetImage(_backgrounds[condition] ?? 'assets/images/default.webp');
+  AssetImage get background => _backgrounds[condition] ?? K.defaultAssetImage;
 
   Condition({
     required this.creation,
     required this.condition,
     required this.source,
     required this.userLocation,
-  })   : expiry = creation.add(_validityPeriod),
+  })   : expiry = creation.add(K.conditionValidityPeriod),
         distance = userLocation.distanceFrom(source.location);
-
-  /// The validity period for a condition.
-  static const Duration _validityPeriod = Duration(hours: 2);
 
   /// The icons that represent each [condition].
   static const Map<String, IconData> _icons = {
@@ -96,34 +93,34 @@ class Condition {
     'Windy': WeatherIcons.strong_wind,
   };
 
-  /// The background images (as asset names) that represent each [condition].
-  static const Map<String, String> _backgrounds = {
-    'Cloudy': 'assets/images/cloud.webp',
-    'Fair (Day)': 'assets/images/day.webp',
-    'Fair (Night)': 'assets/images/night.webp',
-    'Fair & Warm': 'assets/images/day.webp',
-    'Hazy (Day)': 'assets/images/day.webp',
-    'Hazy (Night)': 'assets/images/night.webp',
-    'Heavy Thundery Showers': 'assets/images/lightning.webp',
-    'Heavy Thundery Showers with Gusty Winds': 'assets/images/lightning.webp',
-    'Light Rain': 'assets/images/rain.webp',
-    'Light Showers': 'assets/images/rain.webp',
-    'Moderate Rain': 'assets/images/rain.webp',
-    'Heavy Rain': 'assets/images/rain.webp',
-    'Overcast': 'assets/images/cloud.webp',
-    'Partly Cloudy': 'assets/images/cloud.webp',
-    'Partly Cloudy (Day)': 'assets/images/cloud.webp',
-    'Partly Cloudy (Night)': 'assets/images/cloud.webp',
-    'Passing Showers': 'assets/images/rain.webp',
-    'Rain': 'assets/images/rain.webp',
-    'Rain (Day)': 'assets/images/rain.webp',
-    'Rain (Night)': 'assets/images/rain.webp',
-    'Showers': 'assets/images/rain.webp',
-    'Showers (Day)': 'assets/images/rain.webp',
-    'Showers (Night)': 'assets/images/rain.webp',
-    'Thundery Showers': 'assets/images/lightning.webp',
-    'Thundery Showers (Day)': 'assets/images/lightning.webp',
-    'Thundery Showers (Night)': 'assets/images/lightning.webp',
-    'Windy': 'assets/images/wind.webp',
+  /// The background images that represent each [condition].
+  static const Map<String, AssetImage> _backgrounds = {
+    'Cloudy': K.cloudAssetImage,
+    'Fair (Day)': K.dayAssetImage,
+    'Fair (Night)': K.nightAssetImage,
+    'Fair & Warm': K.dayAssetImage,
+    'Hazy (Day)': K.dayAssetImage,
+    'Hazy (Night)': K.nightAssetImage,
+    'Heavy Thundery Showers': K.lightningAssetImage,
+    'Heavy Thundery Showers with Gusty Winds': K.lightningAssetImage,
+    'Light Rain': K.rainAssetImage,
+    'Light Showers': K.rainAssetImage,
+    'Moderate Rain': K.rainAssetImage,
+    'Heavy Rain': K.rainAssetImage,
+    'Overcast': K.cloudAssetImage,
+    'Partly Cloudy': K.cloudAssetImage,
+    'Partly Cloudy (Day)': K.cloudAssetImage,
+    'Partly Cloudy (Night)': K.cloudAssetImage,
+    'Passing Showers': K.rainAssetImage,
+    'Rain': K.rainAssetImage,
+    'Rain (Day)': K.rainAssetImage,
+    'Rain (Night)': K.rainAssetImage,
+    'Showers': K.rainAssetImage,
+    'Showers (Day)': K.rainAssetImage,
+    'Showers (Night)': K.rainAssetImage,
+    'Thundery Showers': K.lightningAssetImage,
+    'Thundery Showers (Day)': K.lightningAssetImage,
+    'Thundery Showers (Night)': K.lightningAssetImage,
+    'Windy': K.windAssetImage,
   };
 }

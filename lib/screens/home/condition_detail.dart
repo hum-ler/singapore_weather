@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../config.dart' as K;
 import '../../models/condition.dart';
-import '../../utils/date_time_ext.dart';
+import '../../utils/intl_utils.dart';
 import '../../utils/string_ext.dart';
 import 'wrapped_icon.dart';
 
@@ -32,7 +33,10 @@ class ConditionDetail extends StatelessWidget {
             ),
             Text(
               ' ' + // give some extra space
-                  condition.condition.truncate(24, ellipsis: '...'),
+                  condition.condition.truncate(
+                    K.detailsWeatherConditionLength,
+                    ellipsis: K.truncationEllipsis,
+                  ),
               style: TextStyle(fontSize: 12.0),
             ),
             SizedBox(width: 4.0),
@@ -41,9 +45,12 @@ class ConditionDetail extends StatelessWidget {
               size: 10.0,
             ),
             Text(
-              condition.source.name.truncate(18, ellipsis: "…") +
+              condition.source.name.truncate(
+                    K.detailsSourceNameLength,
+                    ellipsis: K.truncationEllipsis,
+                  ) +
                   ' (' +
-                  condition.distance.toStringAsFixed(1) +
+                  condition.distance.format() +
                   condition.distanceUnit +
                   ')',
               style: TextStyle(fontSize: 12.0),
@@ -54,7 +61,7 @@ class ConditionDetail extends StatelessWidget {
               size: 10.0,
             ),
             Text(
-              condition.creation.format('d MMM h:mm'),
+              condition.creation.format(),
               style: TextStyle(fontSize: 12.0),
             ),
           ],

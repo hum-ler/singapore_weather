@@ -1,3 +1,4 @@
+import '../config.dart' as K;
 import 'condition.dart';
 import 'geoposition.dart';
 import 'source.dart';
@@ -31,11 +32,11 @@ class Forecast extends Condition {
 
   /// The validity periods for each [ForecastType].
   static const Map<ForecastType, Duration> _validityPeriod = {
-    ForecastType.immediate: const Duration(hours: 2),
-    ForecastType.predawn: const Duration(hours: 6),
-    ForecastType.morning: const Duration(hours: 6),
-    ForecastType.afternoon: const Duration(hours: 6),
-    ForecastType.night: const Duration(hours: 6),
+    ForecastType.immediate: K.forecast2HourBlockValidityPeriod,
+    ForecastType.predawn: K.forecast6HourBlockValidityPeriod,
+    ForecastType.morning: K.forecast6HourBlockValidityPeriod,
+    ForecastType.afternoon: K.forecast6HourBlockValidityPeriod,
+    ForecastType.night: K.forecast6HourBlockValidityPeriod,
   };
 }
 

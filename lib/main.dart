@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
+import 'config.dart' as K;
 import 'generated/l10n.dart';
 import 'models/weather_model.dart';
 import 'screens/home.dart';
@@ -34,7 +35,7 @@ void main() {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        theme: ThemeData.dark().copyWith(primaryColor: Colors.deepOrange),
+        theme: ThemeData.dark().copyWith(primaryColor: K.appPrimaryColor),
         home: Home(),
       ),
     ),

@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:singapore_weather/generated/l10n.dart';
 import 'package:singapore_weather/models/geoposition.dart';
 import 'package:singapore_weather/models/weather_model.dart';
 import 'package:singapore_weather/services/geolocation.dart';
@@ -13,6 +15,8 @@ import 'weather_test.mocks.dart';
 
 @GenerateMocks([Client, Geolocation, WeatherModel])
 main() {
+  setUp(() async => await S.load(const Locale('en')));
+
   group('Weather.refresh():', () {
     test('GeolocationException => passthrough', () {
       final WeatherModel data = MockWeatherModel();

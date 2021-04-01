@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../config.dart' as K;
 import 'geoposition.dart';
 
 /// A source of a reading or forecast.
@@ -66,9 +67,9 @@ class Source {
 
   /// The effective range for each [SourceType] in km.
   static const Map<SourceType, double> _effectiveRange = {
-    SourceType.station: 10.0,
-    SourceType.area: 10.0,
-    SourceType.region: 20.0,
+    SourceType.station: K.stationEffectiveRange,
+    SourceType.area: K.areaEffectiveRange,
+    SourceType.region: K.regionEffectiveRange,
   };
 }
 

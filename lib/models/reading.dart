@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_icons/weather_icons.dart';
 
+import '../config.dart' as K;
 import 'geoposition.dart';
 import 'source.dart';
 
@@ -72,12 +73,12 @@ class Reading {
 
   /// The validaty periods for each [ReadingType].
   static const Map<ReadingType, Duration> _validityPeriods = {
-    ReadingType.temperature: const Duration(minutes: 10),
-    ReadingType.rain: const Duration(minutes: 20),
-    ReadingType.humidity: const Duration(minutes: 10),
-    ReadingType.windSpeed: const Duration(minutes: 10),
-    ReadingType.windDirection: const Duration(minutes: 10),
-    ReadingType.pm2_5: const Duration(hours: 1, minutes: 10),
+    ReadingType.temperature: K.temperatureReadingValidityPeriod,
+    ReadingType.rain: K.rainReadingValidityPeriod,
+    ReadingType.humidity: K.humidityReadingValidityPeriod,
+    ReadingType.windSpeed: K.windSpeedReadingValidityPeriod,
+    ReadingType.windDirection: K.windDirectionReadingValidityPeriod,
+    ReadingType.pm2_5: K.pm2_5ReadingValidityPeriod,
   };
 
   /// The minimum (reasonable) values for each [ReadingType].

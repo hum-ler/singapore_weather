@@ -20,7 +20,7 @@ main() {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: [S.delegate],
-          locale: Locale('en'),
+          locale: const Locale('en'),
           home: MultiProvider(
             providers: [
               ChangeNotifierProvider<WeatherModel>(
@@ -69,7 +69,7 @@ main() {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: [S.delegate],
-          locale: Locale('en'),
+          locale: const Locale('en'),
           home: MultiProvider(
             providers: [
               ChangeNotifierProvider<WeatherModel>(
@@ -104,7 +104,7 @@ main() {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: [S.delegate],
-          locale: Locale('en'),
+          locale: const Locale('en'),
           home: MultiProvider(
             providers: [
               ChangeNotifierProvider<WeatherModel>(

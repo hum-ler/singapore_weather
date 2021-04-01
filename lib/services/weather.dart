@@ -1,5 +1,7 @@
 import 'package:http/http.dart';
 
+import '../config.dart' as K;
+import '../generated/l10n.dart';
 import '../models/condition.dart';
 import '../models/forecast.dart';
 import '../models/geoposition.dart';
@@ -32,45 +34,39 @@ class Weather {
   Future<void> refresh(Client client) async {
     final Geoposition userLocation = await location.getCurrentLocation();
 
-    final JsonReadingModel temperatureModel;
-    final JsonReadingModel rainModel;
-    final JsonReadingModel humidityModel;
-    final JsonReadingModel windSpeedModel;
-    final JsonReadingModel windDirectionModel;
-    final JsonPM2_5Model pm2_5Model;
-    final Json2HourForecastModel conditionModel;
-    final Json24HourForecastModel forecastModel;
-    temperatureModel = await _fetchJsonReadingModel(
+    final JsonReadingModel temperatureModel = await _fetchJsonReadingModel(
       client: client,
-      url: _temperatureUrl,
+      url: K.temperatureUrl,
     );
-    rainModel = await _fetchJsonReadingModel(
+    final JsonReadingModel rainModel = await _fetchJsonReadingModel(
       client: client,
-      url: _rainUrl,
+      url: K.rainUrl,
     );
-    humidityModel = await _fetchJsonReadingModel(
+    final JsonReadingModel humidityModel = await _fetchJsonReadingModel(
       client: client,
-      url: _humidityUrl,
+      url: K.humidityUrl,
     );
-    windSpeedModel = await _fetchJsonReadingModel(
+    final JsonReadingModel windSpeedModel = await _fetchJsonReadingModel(
       client: client,
-      url: _windSpeedUrl,
+      url: K.windSpeedUrl,
     );
-    windDirectionModel = await _fetchJsonReadingModel(
+    final JsonReadingModel windDirectionModel = await _fetchJsonReadingModel(
       client: client,
-      url: _windDirectionUrl,
+      url: K.windDirectionUrl,
     );
-    pm2_5Model = await _fetchJsonPM25Model(
+    final JsonPM2_5Model pm2_5Model = await _fetchJsonPM25Model(
       client: client,
-      url: _pm2_5Url,
+      url: K.pm2_5Url,
     );
-    conditionModel = await _fetchJson2HourForecastModel(
+    final Json2HourForecastModel conditionModel =
+        await _fetchJson2HourForecastModel(
       client: client,
-      url: _2HourForecastUrl,
+      url: K.forecast2HourUrl,
     );
-    forecastModel = await _fetchJson24HourForecastModel(
+    final Json24HourForecastModel forecastModel =
+        await _fetchJson24HourForecastModel(
       client: client,
-      url: _24HourForecastUrl,
+      url: K.forecast24HourUrl,
     );
 
     final Reading temperature = _deriveNearestReading(
@@ -130,7 +126,7 @@ class Weather {
   /// If the operation fails, a [WeatherException] will be thrown.
   Future<JsonReadingModel> _fetchJsonReadingModel({
     required Client client,
-    required String url,
+    required Uri url,
   }) async {
     try {
       return JsonReadingModel.fromJson(await httpGetJsonData(url, client));
@@ -148,7 +144,7 @@ class Weather {
   /// If the operation fails, a [WeatherException] will be thrown.
   Future<JsonPM2_5Model> _fetchJsonPM25Model({
     required Client client,
-    required String url,
+    required Uri url,
   }) async {
     try {
       return JsonPM2_5Model.fromJson(await httpGetJsonData(url, client));
@@ -163,7 +159,7 @@ class Weather {
   /// If the operation fails, a [WeatherException] will be thrown.
   Future<Json2HourForecastModel> _fetchJson2HourForecastModel({
     required Client client,
-    required String url,
+    required Uri url,
   }) async {
     try {
       return Json2HourForecastModel.fromJson(
@@ -180,7 +176,7 @@ class Weather {
   /// If the operation fails, a [WeatherException] will be thrown.
   Future<Json24HourForecastModel> _fetchJson24HourForecastModel({
     required Client client,
-    required String url,
+    required Uri url,
   }) async {
     try {
       return Json24HourForecastModel.fromJson(
@@ -201,14 +197,12 @@ class Weather {
   }) {
     // Catch bad raw data.
     if (data.apiInfo.status != 'healthy') {
-      throw WeatherException(
-        'unexpected ${type.toString().asEnumLabel()} readings',
-      );
+      throw WeatherException(S.current
+          .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
     }
     if (data.items.isEmpty) {
-      throw WeatherException(
-        'unexpected ${type.toString().asEnumLabel()} readings',
-      );
+      throw WeatherException(S.current
+          .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
     }
 
     final DateTime creation = data.items.first.timestamp.toLocal();
@@ -253,12 +247,12 @@ class Weather {
     // Catch bad raw data.
     if (data.apiInfo.status != 'healthy') {
       throw WeatherException(
-        'unexpected PM2.5 readings',
+        S.current.weatherExceptionUnexpectedReading('PM2.5'),
       );
     }
     if (data.items.isEmpty) {
       throw WeatherException(
-        'unexpected PM2.5 readings',
+        S.current.weatherExceptionUnexpectedReading('PM2.5'),
       );
     }
 
@@ -296,14 +290,10 @@ class Weather {
   }) {
     // Catch bad raw data.
     if (data.apiInfo.status != 'healthy') {
-      throw WeatherException(
-        'unexpected weather condition data',
-      );
+      throw WeatherException(S.current.weatherExceptionUnexpectedCondition);
     }
     if (data.items.isEmpty) {
-      throw WeatherException(
-        'unexpected weather condition data',
-      );
+      throw WeatherException(S.current.weatherExceptionUnexpectedCondition);
     }
 
     final DateTime creation = data.items.first.timestamp.toLocal();
@@ -340,14 +330,10 @@ class Weather {
   }) {
     // Catch bad raw data.
     if (data.apiInfo.status != 'healthy') {
-      throw WeatherException(
-        'unexpected weather forecast data',
-      );
+      throw WeatherException(S.current.weatherExceptionUnexpectedForecast);
     }
     if (data.items.isEmpty) {
-      throw WeatherException(
-        'unexpected weather forecast data',
-      );
+      throw WeatherException(S.current.weatherExceptionUnexpectedForecast);
     }
 
     final DateTime creation = data.items.first.timestamp.toLocal();
@@ -389,7 +375,7 @@ class Weather {
           break;
 
         default:
-          throw WeatherException('unexpected weather forecast data');
+          throw WeatherException(S.current.weatherExceptionUnexpectedForecast);
       }
 
       forecast.add(Forecast(
@@ -403,69 +389,6 @@ class Weather {
 
     return forecast;
   }
-
-  /// The URL of realtime air temperature readings API (at Data.gov.sg).
-  ///
-  /// Updates every 1 minute. Takes parameter date_time=<ISO8601>. Unit is °C.
-  ///
-  /// See https://data.gov.sg/dataset/realtime-weather-readings.
-  static const String _temperatureUrl =
-      'https://api.data.gov.sg/v1/environment/air-temperature';
-
-  /// The URL of realtime rainfall readings API (at Data.gov.sg).
-  ///
-  /// Updates every 5 minutes. Takes parameter date_time=<ISO8601>. Unit is mm.
-  ///
-  /// See https://data.gov.sg/dataset/realtime-weather-readings.
-  static const String _rainUrl =
-      'https://api.data.gov.sg/v1/environment/rainfall';
-
-  /// The URL of realtime relative humidity readings API (at Data.gov.sg).
-  ///
-  /// Updates every 1 minute. Takes parameter date_time=<ISO8601>. Unit is %.
-  ///
-  /// See https://data.gov.sg/dataset/realtime-weather-readings.
-  static const String _humidityUrl =
-      'https://api.data.gov.sg/v1/environment/relative-humidity';
-
-  /// The URL of realtime wind speed readings API (at Data.gov.sg).
-  ///
-  /// Updates every 1 minute. Takes parameter date_time=<ISO8601>. Unit is knot.
-  ///
-  /// See https://data.gov.sg/dataset/realtime-weather-readings.
-  static const String _windSpeedUrl =
-      'https://api.data.gov.sg/v1/environment/wind-speed';
-
-  /// The URL of realtime wind direction readings API (at Data.gov.sg).
-  ///
-  /// Updates every 1 minute. Takes parameter date_time=<ISO8601>. Unit is °.
-  ///
-  /// See https://data.gov.sg/dataset/realtime-weather-readings.
-  static const String _windDirectionUrl =
-      'https://api.data.gov.sg/v1/environment/wind-direction';
-
-  /// The URL of the PM2.5 API (at Data.gov.sg).
-  ///
-  /// Takes parameter date_time=<ISO8601>.
-  ///
-  /// See https://data.gov.sg/dataset/pm2-5.
-  static const String _pm2_5Url = 'https://api.data.gov.sg/v1/environment/pm25';
-
-  /// The URL of the 2-hour weather forecast API (at Data.gov.sg).
-  ///
-  /// Updates every 30 minutes. Takes parameter date_time=<ISO8601>.
-  ///
-  /// See https://data.gov.sg/dataset/weather-forecast.
-  static const String _2HourForecastUrl =
-      'https://api.data.gov.sg/v1/environment/2-hour-weather-forecast';
-
-  /// The URL of the 24-hour weather forecast API (at Data.gov.sg).
-  ///
-  /// Takes parameter date_time=<ISO8601>.
-  ///
-  /// See https://data.gov.sg/dataset/weather-forecast.
-  static const String _24HourForecastUrl =
-      'https://api.data.gov.sg/v1/environment/24-hour-weather-forecast';
 }
 
 /// Custom exception for the [Weather] service.
@@ -476,5 +399,5 @@ class WeatherException implements Exception {
   WeatherException(this.message);
 
   @override
-  String toString() => 'Weather service error: $message';
+  String toString() => S.current.weatherExceptionToString(message);
 }

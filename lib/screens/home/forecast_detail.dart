@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../config.dart' as K;
+import '../../generated/l10n.dart';
 import '../../models/forecast.dart';
+import '../../utils/intl_utils.dart';
 import '../../utils/string_ext.dart';
 import 'wrapped_icon.dart';
 
@@ -31,7 +34,7 @@ class ForecastDetail extends StatelessWidget {
             ),
             Text(
               ' ' + // give some extra space
-                  forecast.type.toString().asEnumLabel().capitalize(),
+                  S.of(context).forecastTypeLabel(forecast.type),
               style: TextStyle(fontSize: 12.0),
             ),
             SizedBox(width: 4.0),
@@ -41,7 +44,10 @@ class ForecastDetail extends StatelessWidget {
             ),
             Text(
               ' ' + // give some extra space
-                  forecast.condition.truncate(24, ellipsis: '…'),
+                  forecast.condition.truncate(
+                    K.detailsWeatherConditionLength,
+                    ellipsis: K.truncationEllipsis,
+                  ),
               style: TextStyle(fontSize: 12.0),
             ),
             SizedBox(width: 4.0),
@@ -50,9 +56,9 @@ class ForecastDetail extends StatelessWidget {
               size: 10.0,
             ),
             Text(
-              forecast.source.name.capitalize() +
+              S.of(context).regionNameLabel(forecast.source.name) +
                   ' (' +
-                  forecast.distance.toStringAsFixed(1) +
+                  forecast.distance.format() +
                   forecast.distanceUnit +
                   ')',
               style: TextStyle(fontSize: 12.0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../config.dart' as K;
 import '../generated/l10n.dart';
 import 'about/header.dart';
 
@@ -29,7 +30,7 @@ class About extends StatelessWidget {
               },
               styleSheet: MarkdownStyleSheet(
                 blockquoteDecoration: BoxDecoration(
-                  color: Colors.deepOrange.withOpacity(0.4),
+                  color: K.appPrimaryColor.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 blockquotePadding: const EdgeInsets.symmetric(

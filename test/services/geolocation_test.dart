@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:location/location.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:singapore_weather/generated/l10n.dart';
 import 'package:singapore_weather/models/geoposition.dart';
 import 'package:singapore_weather/services/geolocation.dart';
 
@@ -11,6 +13,8 @@ import 'geolocation_test.mocks.dart';
 
 @GenerateMocks([Location, LocationData])
 main() {
+  setUp(() async => await S.load(const Locale('en')));
+
   group('Geolocation.getCurrentLocation():', () {
     test('location service off => GeolocationException', () {
       final MockLocation location = MockLocation();

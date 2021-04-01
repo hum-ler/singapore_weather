@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../config.dart' as K;
 import '../../models/reading.dart';
-import '../../utils/date_time_ext.dart';
+import '../../utils/intl_utils.dart';
 import '../../utils/math_utils.dart';
 import '../../utils/string_ext.dart';
 import 'wrapped_icon.dart';
@@ -38,30 +39,26 @@ class ReadingDetail extends StatelessWidget {
                 reading.icon,
                 size: 10.0,
               ),
-            if (reading.type == ReadingType.windDirection ||
-                reading.type == ReadingType.pm2_5)
-              Text(
-                ' ' + // give some extra space
-                    reading.value.toString() +
-                    reading.unit,
-                style: TextStyle(fontSize: 12.0),
-              )
-            else
-              Text(
-                ' ' + // give some extra space
-                    reading.value.toStringAsFixed(1) +
-                    reading.unit,
-                style: TextStyle(fontSize: 12.0),
-              ),
+            Text(
+              ' ' + // give some extra space
+                  reading.value.format() +
+                  reading.unit,
+              style: TextStyle(fontSize: 12.0),
+            ),
             SizedBox(width: 4.0),
             WrappedIcon(
               Icons.place,
               size: 10.0,
             ),
             Text(
-              reading.source.name.truncate(18, ellipsis: "…").capitalize() +
+              reading.source.name
+                      .truncate(
+                        K.detailsSourceNameLength,
+                        ellipsis: K.truncationEllipsis,
+                      )
+                      .capitalize() +
                   ' (' +
-                  reading.distance.toStringAsFixed(1) +
+                  reading.distance.format() +
                   reading.distanceUnit +
                   ')',
               style: TextStyle(fontSize: 12.0),
@@ -72,7 +69,7 @@ class ReadingDetail extends StatelessWidget {
               size: 10.0,
             ),
             Text(
-              reading.creation.format('d MMM h:mm'),
+              reading.creation.format(),
               style: TextStyle(fontSize: 12.0),
             ),
           ],

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
+import '../../config.dart' as K;
 import '../../generated/l10n.dart';
 import '../../models/forecast.dart';
 import '../../models/weather_model.dart';
 import '../../services/geolocation.dart';
 import '../../services/weather.dart';
-import '../../utils/string_ext.dart';
 import 'forecast_tile.dart';
 import 'wrapped_icon.dart';
 
@@ -87,8 +87,7 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
               builder: (context, data, child) => Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: data.condition?.background ??
-                        AssetImage('assets/images/default.webp'),
+                    image: data.condition?.background ?? K.defaultAssetImage,
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.6),
@@ -127,9 +126,7 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                           for (final Forecast forecast in data.forecast!)
                             ForecastTile(
                               forecast.icon,
-                              S.of(context).forecastTileLabel(
-                                    forecast.type.toString().asEnumLabel(),
-                                  ),
+                              S.of(context).forecastTypeLabel(forecast.type),
                               iconSize: 48.0,
                               labelStyle: TextStyle(fontSize: 14.0),
                             ),
@@ -157,13 +154,13 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
     } on GeolocationException catch (e) {
       _printError(
         context,
-        S.of(context).geolocationErrorPrefix + e.message,
+        S.of(context).snackBarGeolocationExceptionPrefix + e.message,
         retry: () => _refreshIndicatorKey.currentState!.show(),
       );
     } on WeatherException catch (e) {
       _printError(
         context,
-        S.of(context).weatherErrorPrefix + e.message,
+        S.of(context).snackBarWeatherExceptionPrefix + e.message,
         retry: () => _refreshIndicatorKey.currentState!.show(),
       );
     } finally {
@@ -182,7 +179,7 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
         content: Text(message),
         action: retry != null
             ? SnackBarAction(
-                label: S.of(context).errorRetryButtonLabel,
+                label: S.of(context).snackBarRetryButtonLabel,
                 onPressed: retry,
               )
             : null,

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:location/location.dart';
 
+import '../config.dart' as K;
+import '../generated/l10n.dart';
 import '../models/geoposition.dart';
 
 /// The service that retrieves geolocation.
@@ -23,7 +25,9 @@ class Geolocation {
     if (!serviceEnabled) {
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
-        return Future.error(GeolocationException('service disabled'));
+        return Future.error(
+          GeolocationException(S.current.geolocationExceptionServiceDisabled),
+        );
       }
     }
 
@@ -34,24 +38,27 @@ class Geolocation {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted &&
           permissionGranted != PermissionStatus.grantedLimited) {
-        return Future.error(GeolocationException('permission denied'));
+        return Future.error(
+          GeolocationException(S.current.geolocationExceptionPermissionDenied),
+        );
       }
     }
 
     final LocationData locationData;
     try {
-      locationData =
-          await location.getLocation().timeout(const Duration(seconds: 10));
+      locationData = await location.getLocation().timeout(K.getLocationTimeout);
       // Rethrow any errors as GeolocationExceptions.
     } on TimeoutException {
-      return Future.error(GeolocationException('timed out'));
+      return Future.error(
+        GeolocationException(S.current.geolocationExceptionTimeout),
+      );
     } catch (e) {
       return Future.error(GeolocationException(e.toString()));
     }
 
     if (locationData.latitude == null || locationData.longitude == null) {
       return Future.error(
-        GeolocationException('unexpected response from service'),
+        GeolocationException(S.current.geolocationExceptionUnexpectedResponse),
       );
     }
 
@@ -70,5 +77,5 @@ class GeolocationException implements Exception {
   GeolocationException(this.message);
 
   @override
-  String toString() => 'Geolocation service error: $message';
+  String toString() => S.current.geolocationExceptionToString(message);
 }

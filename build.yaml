@@ -17,4 +17,4 @@ targets:
           include_if_null: true
       mockito|mockBuilder:
         generate_for:
-        - test/*/*_test.dart
+        - test/**/*_test.dart
