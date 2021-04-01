@@ -9,7 +9,7 @@ import 'package:singapore_weather/models/source.dart';
 import 'package:singapore_weather/models/weather_model.dart';
 
 main() {
-  test('WeatherModel: destruction should notify listeners', () {
+  test('WeatherModel: modification should notify listeners', () {
     final WeatherModel weatherModel = WeatherModel();
     Completer completer = Completer();
 

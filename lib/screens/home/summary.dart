@@ -13,7 +13,13 @@ import 'wrapped_icon.dart';
 
 /// Draws the background and key information on the main screen.
 class Summary extends StatefulWidget {
+  /// Indicates whether to refresh weather data when state is created.
+  ///
+  /// Defaults to true.
+  final bool refreshDataAtStartUp;
+
   const Summary({
+    this.refreshDataAtStartUp = true,
     Key? key,
   }) : super(key: key);
 
@@ -29,9 +35,13 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!
-      ..addObserver(this)
-      ..addPostFrameCallback((_) => _refreshIndicatorKey.currentState!.show());
+    WidgetsBinding.instance!.addObserver(this);
+
+    if (widget.refreshDataAtStartUp) {
+      WidgetsBinding.instance!.addPostFrameCallback(
+        (_) => _refreshIndicatorKey.currentState!.show(),
+      );
+    }
   }
 
   @override

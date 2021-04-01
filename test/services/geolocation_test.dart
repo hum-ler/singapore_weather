@@ -11,7 +11,7 @@ import 'geolocation_test.mocks.dart';
 
 @GenerateMocks([Location, LocationData])
 main() {
-  group('Geolocation.getCurrentLocation(): ', () {
+  group('Geolocation.getCurrentLocation():', () {
     test('location service off => GeolocationException', () {
       final MockLocation location = MockLocation();
       when(location.serviceEnabled()).thenAnswer((_) async => false);

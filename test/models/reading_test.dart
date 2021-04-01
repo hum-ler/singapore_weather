@@ -4,7 +4,7 @@ import 'package:singapore_weather/models/reading.dart';
 import 'package:singapore_weather/models/source.dart';
 
 void main() {
-  test('.isExpired', () {
+  test('Reading.isExpired', () {
     // Current creation time => false.
     Reading reading = Reading(
       type: ReadingType.temperature,
@@ -95,7 +95,7 @@ void main() {
     expect(reading.isExpired, isTrue);
   });
 
-  test('.isNearBy', () {
+  test('Reading.isNearBy', () {
     Reading reading = Reading(
       type: ReadingType.temperature,
       value: 0,
@@ -120,7 +120,7 @@ void main() {
     expect(reading.isNearby, isFalse);
   });
 
-  test('.isInBounds', () {
+  test('Reading.isInBounds', () {
     Reading reading = Reading(
       type: ReadingType.temperature,
       value: -200.0,
@@ -152,121 +152,124 @@ void main() {
     expect(reading.isInBounds, isTrue);
   });
 
-  test('.isValid: equals .isInBounds and .isNearBy and not .isExpired', () {
-    Reading reading = Reading(
-      type: ReadingType.temperature,
-      value: 25.0,
-      creation: DateTime.now(),
-      source: Sources.central,
-      userLocation: Sources.central.location,
-    );
+  test(
+    'Reading.isValid: equals .isInBounds and .isNearBy and not .isExpired',
+    () {
+      Reading reading = Reading(
+        type: ReadingType.temperature,
+        value: 25.0,
+        creation: DateTime.now(),
+        source: Sources.central,
+        userLocation: Sources.central.location,
+      );
 
-    expect(reading.isInBounds, isTrue);
-    expect(reading.isNearby, isTrue);
-    expect(reading.isExpired, isFalse);
-    expect(reading.isValid, isTrue);
+      expect(reading.isInBounds, isTrue);
+      expect(reading.isNearby, isTrue);
+      expect(reading.isExpired, isFalse);
+      expect(reading.isValid, isTrue);
 
-    reading = Reading(
-      type: ReadingType.temperature,
-      value: -200.0,
-      creation: DateTime.now(),
-      source: Sources.central,
-      userLocation: Sources.central.location,
-    );
+      reading = Reading(
+        type: ReadingType.temperature,
+        value: -200.0,
+        creation: DateTime.now(),
+        source: Sources.central,
+        userLocation: Sources.central.location,
+      );
 
-    expect(reading.isInBounds, isFalse);
-    expect(reading.isNearby, isTrue);
-    expect(reading.isExpired, isFalse);
-    expect(reading.isValid, isFalse);
+      expect(reading.isInBounds, isFalse);
+      expect(reading.isNearby, isTrue);
+      expect(reading.isExpired, isFalse);
+      expect(reading.isValid, isFalse);
 
-    reading = Reading(
-      type: ReadingType.temperature,
-      value: 25.0,
-      creation: DateTime(1000),
-      source: Sources.central,
-      userLocation: Sources.central.location,
-    );
+      reading = Reading(
+        type: ReadingType.temperature,
+        value: 25.0,
+        creation: DateTime(1000),
+        source: Sources.central,
+        userLocation: Sources.central.location,
+      );
 
-    expect(reading.isInBounds, isTrue);
-    expect(reading.isNearby, isTrue);
-    expect(reading.isExpired, isTrue);
-    expect(reading.isValid, isFalse);
+      expect(reading.isInBounds, isTrue);
+      expect(reading.isNearby, isTrue);
+      expect(reading.isExpired, isTrue);
+      expect(reading.isValid, isFalse);
 
-    reading = Reading(
-      type: ReadingType.temperature,
-      value: 25.0,
-      creation: DateTime.now(),
-      source: Sources.central,
-      userLocation: Geoposition(
-        latitude: 1.0,
-        longitude: 2.0,
-      ),
-    );
+      reading = Reading(
+        type: ReadingType.temperature,
+        value: 25.0,
+        creation: DateTime.now(),
+        source: Sources.central,
+        userLocation: Geoposition(
+          latitude: 1.0,
+          longitude: 2.0,
+        ),
+      );
 
-    expect(reading.isInBounds, isTrue);
-    expect(reading.isNearby, isFalse);
-    expect(reading.isExpired, isFalse);
-    expect(reading.isValid, isFalse);
+      expect(reading.isInBounds, isTrue);
+      expect(reading.isNearby, isFalse);
+      expect(reading.isExpired, isFalse);
+      expect(reading.isValid, isFalse);
 
-    reading = Reading(
-      type: ReadingType.temperature,
-      value: -200.0,
-      creation: DateTime.now(),
-      source: Sources.central,
-      userLocation: Geoposition(
-        latitude: 1.0,
-        longitude: 2.0,
-      ),
-    );
+      reading = Reading(
+        type: ReadingType.temperature,
+        value: -200.0,
+        creation: DateTime.now(),
+        source: Sources.central,
+        userLocation: Geoposition(
+          latitude: 1.0,
+          longitude: 2.0,
+        ),
+      );
 
-    expect(reading.isInBounds, isFalse);
-    expect(reading.isNearby, isFalse);
-    expect(reading.isExpired, isFalse);
-    expect(reading.isValid, isFalse);
+      expect(reading.isInBounds, isFalse);
+      expect(reading.isNearby, isFalse);
+      expect(reading.isExpired, isFalse);
+      expect(reading.isValid, isFalse);
 
-    reading = Reading(
-      type: ReadingType.temperature,
-      value: -200.0,
-      creation: DateTime(1000),
-      source: Sources.central,
-      userLocation: Sources.central.location,
-    );
+      reading = Reading(
+        type: ReadingType.temperature,
+        value: -200.0,
+        creation: DateTime(1000),
+        source: Sources.central,
+        userLocation: Sources.central.location,
+      );
 
-    expect(reading.isInBounds, isFalse);
-    expect(reading.isNearby, isTrue);
-    expect(reading.isExpired, isTrue);
-    expect(reading.isValid, isFalse);
+      expect(reading.isInBounds, isFalse);
+      expect(reading.isNearby, isTrue);
+      expect(reading.isExpired, isTrue);
+      expect(reading.isValid, isFalse);
 
-    reading = Reading(
-      type: ReadingType.temperature,
-      value: 25.0,
-      creation: DateTime(1000),
-      source: Sources.central,
-      userLocation: Geoposition(
-        latitude: 1.0,
-        longitude: 2.0,
-      ),
-    );
+      reading = Reading(
+        type: ReadingType.temperature,
+        value: 25.0,
+        creation: DateTime(1000),
+        source: Sources.central,
+        userLocation: Geoposition(
+          latitude: 1.0,
+          longitude: 2.0,
+        ),
+      );
 
-    expect(reading.isInBounds, isTrue);
-    expect(reading.isNearby, isFalse);
-    expect(reading.isExpired, isTrue);
-    expect(reading.isValid, isFalse);
+      expect(reading.isInBounds, isTrue);
+      expect(reading.isNearby, isFalse);
+      expect(reading.isExpired, isTrue);
+      expect(reading.isValid, isFalse);
 
-    reading = Reading(
-      type: ReadingType.temperature,
-      value: -200.0,
-      creation: DateTime(1000),
-      source: Sources.central,
-      userLocation: Geoposition(
-        latitude: 1.0,
-        longitude: 2.0,
-      ),
-    );
+      reading = Reading(
+        type: ReadingType.temperature,
+        value: -200.0,
+        creation: DateTime(1000),
+        source: Sources.central,
+        userLocation: Geoposition(
+          latitude: 1.0,
+          longitude: 2.0,
+        ),
+      );
 
-    expect(reading.isInBounds, isFalse);
-    expect(reading.isNearby, isFalse);
-    expect(reading.isExpired, isTrue);
-    expect(reading.isValid, isFalse);
-  });
+      expect(reading.isInBounds, isFalse);
+      expect(reading.isNearby, isFalse);
+      expect(reading.isExpired, isTrue);
+      expect(reading.isValid, isFalse);
+    },
+  );
 }

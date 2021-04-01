@@ -13,7 +13,7 @@ import 'weather_test.mocks.dart';
 
 @GenerateMocks([Client, Geolocation, WeatherModel])
 main() {
-  group('Weather.refresh(): ', () {
+  group('Weather.refresh():', () {
     test('GeolocationException => passthrough', () {
       final WeatherModel data = MockWeatherModel();
       final Geolocation location = MockGeolocation();
@@ -152,7 +152,7 @@ main() {
   }
 }
 ''';
-      final String json2_Hour = '''
+      final String json2Hour = '''
 {
   "area_metadata": [
     {
@@ -184,7 +184,7 @@ main() {
   }
 }
 ''';
-      final String json24_Hour = '''
+      final String json24Hour = '''
 {
   "items": [
     {
@@ -247,9 +247,8 @@ main() {
           .thenAnswer((invocation) async {
         String url = (invocation.positionalArguments[0] as Uri).path;
         if (url.contains('pm25')) return Response(jsonPM2_5, HttpStatus.ok);
-        if (url.contains('2-hour')) return Response(json2_Hour, HttpStatus.ok);
-        if (url.contains('24-hour'))
-          return Response(json24_Hour, HttpStatus.ok);
+        if (url.contains('2-hour')) return Response(json2Hour, HttpStatus.ok);
+        if (url.contains('24-hour')) return Response(json24Hour, HttpStatus.ok);
         return Response(jsonReading, HttpStatus.ok);
       });
 

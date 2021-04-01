@@ -10,6 +10,16 @@ import 'home/summary.dart';
 
 /// The main screen.
 class Home extends StatelessWidget {
+  /// Indicates whether to refresh weather data when screen is created.
+  ///
+  /// Defaults to true.
+  final bool refreshDataAtStartUp;
+
+  Home({
+    this.refreshDataAtStartUp = true,
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +37,7 @@ class Home extends StatelessWidget {
         animationDurationExtend: const Duration(milliseconds: 300),
         animationCurveContract: Curves.elasticOut,
         animationDurationContract: const Duration(milliseconds: 300),
-        background: Summary(),
+        background: Summary(refreshDataAtStartUp: refreshDataAtStartUp),
         persistentHeader: Handle(),
         expandableContent: Details(),
       ),

@@ -10,7 +10,7 @@ import 'http_utils_test.mocks.dart';
 
 @GenerateMocks([Client])
 void main() {
-  group('httpGetJsonData(): ', () {
+  group('httpGetJsonData():', () {
     const String someUrl = 'https://some.url';
     const String someHtml = '<!DOCTYPE html><html />';
     const String someJson = '{"key": "value"}';
