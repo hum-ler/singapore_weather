@@ -119,6 +119,14 @@ final Color detailsProblemColor = Colors.grey;
 
 //#endregion
 
+//#region screens/home/summary
+
+/// The color for summary elements that are problematic (out-of-bound / -range /
+/// expired).
+final Color summaryProblemColor = Colors.grey;
+
+//#endregion
+
 //#region services/geolocation
 
 /// The timeout when calling Location.getLocation().
