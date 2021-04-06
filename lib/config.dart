@@ -113,6 +113,18 @@ const int detailsSourceNameLength = 18;
 /// The ellipsis that is displayed when a string is truncated.
 const String truncationEllipsis = '…';
 
+/// The color for details that are problematic (out-of-bound / -range /
+/// expired).
+final Color detailsProblemColor = Colors.grey;
+
+//#endregion
+
+//#region screens/home/summary
+
+/// The color for summary elements that are problematic (out-of-bound / -range /
+/// expired).
+final Color summaryProblemColor = Colors.grey;
+
 //#endregion
 
 //#region services/geolocation

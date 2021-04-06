@@ -109,12 +109,18 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                             style: TextStyle(
                               fontSize: 96.0,
                               fontWeight: FontWeight.bold,
+                              color: data.temperature!.isValid
+                                  ? null
+                                  : K.summaryProblemColor,
                             ),
                           ),
                         if (data.condition != null)
                           WrappedIcon(
                             data.condition!.icon,
                             size: 96.0,
+                            color: data.condition!.isValid
+                                ? null
+                                : K.summaryProblemColor,
                           ),
                       ],
                     ),
@@ -128,7 +134,15 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                               forecast.icon,
                               S.of(context).forecastTypeLabel(forecast.type),
                               iconSize: 48.0,
-                              labelStyle: TextStyle(fontSize: 14.0),
+                              iconColor: forecast.isValid
+                                  ? null
+                                  : K.summaryProblemColor,
+                              labelStyle: TextStyle(
+                                fontSize: 14.0,
+                                color: forecast.isValid
+                                    ? null
+                                    : K.summaryProblemColor,
+                              ),
                             ),
                         ],
                       ),

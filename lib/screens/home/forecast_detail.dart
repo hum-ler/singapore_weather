@@ -54,6 +54,7 @@ class ForecastDetail extends StatelessWidget {
             WrappedIcon(
               Icons.place,
               size: 10.0,
+              color: forecast.isNearby ? null : K.detailsProblemColor,
             ),
             Text(
               S.of(context).regionNameLabel(forecast.source.name) +
@@ -61,7 +62,10 @@ class ForecastDetail extends StatelessWidget {
                   forecast.distance.format() +
                   forecast.distanceUnit +
                   ')',
-              style: TextStyle(fontSize: 12.0),
+              style: TextStyle(
+                fontSize: 12.0,
+                color: forecast.isNearby ? null : K.detailsProblemColor,
+              ),
             ),
             SizedBox(width: 4.0),
           ],
