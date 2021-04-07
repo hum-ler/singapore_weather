@@ -10,7 +10,7 @@ void main() {
       expect(() => longString.truncate(-1), throwsArgumentError);
     });
 
-    test('null ellipsis equals no ellipsis', () {
+    test('null ellipsis => no ellipsis', () {
       expect(
         longString.truncate(10),
         equals(longString.substring(0, 10)),
