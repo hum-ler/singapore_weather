@@ -153,7 +153,7 @@ void main() {
   });
 
   test(
-    'Reading.isValid: equals .isInBounds and .isNearBy and not .isExpired',
+    'Reading.isValid: == isInBounds && isNearBy && !isExpired',
     () {
       Reading reading = Reading(
         type: ReadingType.temperature,

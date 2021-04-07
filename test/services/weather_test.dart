@@ -63,7 +63,7 @@ main() {
       expect(weather.refresh(client), throwsA(isA<WeatherException>()));
     });
 
-    test('success => WeatherModel.refresh() called', () async {
+    test('success => WeatherModel.refresh()', () async {
       final String jsonReading = '''
 {
   "metadata": {

@@ -324,7 +324,7 @@ main() {
       );
     });
 
-    testWidgets('valid forecast => icon / text color == summaryProblemColor',
+    testWidgets('invalid forecast => icon / text color == summaryProblemColor',
         (WidgetTester tester) async {
       final WeatherModel data = WeatherModel();
       data.update(
