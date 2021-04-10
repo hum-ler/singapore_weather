@@ -161,7 +161,10 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                     Positioned(
                       top: 20.0,
                       right: 20.0,
-                      child: IslandButton(onPressed: _onIslandPressed),
+                      child: IslandButton(
+                        size: 64.0,
+                        onPressed: _onIslandPressed,
+                      ),
                     ),
                   ],
                 ),

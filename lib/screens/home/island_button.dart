@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import '../../config.dart' as K;
 
 /// Draws a circular button with the silhouette of Singapore inside it.
-///
-/// The button is 48.0 wide.
 class IslandButton extends StatelessWidget {
+  /// The size of the button.
+  ///
+  /// Defaults to 48.0.
+  final double size;
+
+  /// The callback function when the button is pressed.
   final void Function()? onPressed;
 
   const IslandButton({
-    this.onPressed,
+    this.size = 48.0,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -19,16 +24,16 @@ class IslandButton extends StatelessWidget {
       onPressed: onPressed,
       shape: CircleBorder(side: BorderSide.none),
       constraints: BoxConstraints(
-        maxHeight: 48.0,
-        minHeight: 48.0,
-        maxWidth: 48.0,
-        minWidth: 48.0,
+        maxHeight: size,
+        minHeight: size,
+        maxWidth: size,
+        minWidth: size,
       ),
       fillColor: K.appSecondaryColor,
       clipBehavior: Clip.antiAlias,
       padding: EdgeInsets.zero,
       child: SizedBox(
-        height: 48.0,
+        height: size,
         child: Hero(
           tag: K.islandImageTag,
           child: Image(
