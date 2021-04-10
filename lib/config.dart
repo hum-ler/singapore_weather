@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 /// The primary color for the app.
 ///
 /// Applied in the app bar.
-final Color appPrimaryColor = Colors.grey.shade800;
+final Color appPrimaryColor = Colors.deepOrange;
 
 /// The secondary color for the app.
 ///
 /// Applied in the island map background.
-final Color appSecondaryColor = Colors.grey.shade700;
+final Color appSecondaryColor = Colors.deepOrange.shade200;
 
 //#endregion
 
