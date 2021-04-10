@@ -3,10 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../config.dart' as K;
 import '../generated/l10n.dart';
-import '../models/forecast.dart';
 import '../models/source.dart';
 import '../models/weather_model.dart';
-import 'home/forecast_tile.dart';
+import 'island/forecast_row.dart';
 
 /// The island-wide forecast screen.
 class Island extends StatelessWidget {
@@ -44,108 +43,39 @@ class Island extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   Container(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (data.forecast != null &&
-                          data.forecast![Sources.north] != null)
-                        for (final Forecast forecast
-                            in data.forecast![Sources.north]!)
-                          ForecastTile(
-                            forecast.icon,
-                            S.of(context).shortForecastTypeLabel(forecast.type),
-                            iconSize: 24.0,
-                            labelStyle: TextStyle(fontSize: 12.0),
-                            spacerSize: 2.0,
-                            minWidth: 24.0,
-                            minHeight: 52.0,
-                          ),
-                    ],
-                  ),
+                  if (data.forecast != null &&
+                      data.forecast![Sources.north] != null)
+                    ForecastRow(data.forecast![Sources.north]!)
+                  else
+                    Container(),
                   Container(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        if (data.forecast != null &&
-                            data.forecast![Sources.west] != null)
-                          for (final Forecast forecast
-                              in data.forecast![Sources.west]!)
-                            ForecastTile(
-                              forecast.icon,
-                              S
-                                  .of(context)
-                                  .shortForecastTypeLabel(forecast.type),
-                              iconSize: 24.0,
-                              labelStyle: TextStyle(fontSize: 12.0),
-                              spacerSize: 2.0,
-                              minWidth: 24.0,
-                              minHeight: 52.0,
-                            ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (data.forecast != null &&
-                          data.forecast![Sources.central] != null)
-                        for (final Forecast forecast
-                            in data.forecast![Sources.central]!)
-                          ForecastTile(
-                            forecast.icon,
-                            S.of(context).shortForecastTypeLabel(forecast.type),
-                            iconSize: 24.0,
-                            labelStyle: TextStyle(fontSize: 12.0),
-                            spacerSize: 2.0,
-                            minWidth: 24.0,
-                            minHeight: 52.0,
-                          ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        if (data.forecast != null &&
-                            data.forecast![Sources.east] != null)
-                          for (final Forecast forecast
-                              in data.forecast![Sources.east]!)
-                            ForecastTile(
-                              forecast.icon,
-                              S
-                                  .of(context)
-                                  .shortForecastTypeLabel(forecast.type),
-                              iconSize: 24.0,
-                              labelStyle: TextStyle(fontSize: 12.0),
-                              spacerSize: 2.0,
-                              minWidth: 24.0,
-                              minHeight: 52.0,
-                            ),
-                      ],
-                    ),
-                  ),
+                  if (data.forecast != null &&
+                      data.forecast![Sources.west] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 24.0),
+                      child: ForecastRow(data.forecast![Sources.west]!),
+                    )
+                  else
+                    Container(),
+                  if (data.forecast != null &&
+                      data.forecast![Sources.central] != null)
+                    ForecastRow(data.forecast![Sources.central]!)
+                  else
+                    Container(),
+                  if (data.forecast != null &&
+                      data.forecast![Sources.east] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24.0),
+                      child: ForecastRow(data.forecast![Sources.east]!),
+                    )
+                  else
+                    Container(),
                   Container(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (data.forecast != null &&
-                          data.forecast![Sources.south] != null)
-                        for (final Forecast forecast
-                            in data.forecast![Sources.south]!)
-                          ForecastTile(
-                            forecast.icon,
-                            S.of(context).shortForecastTypeLabel(forecast.type),
-                            iconSize: 24.0,
-                            labelStyle: TextStyle(fontSize: 12.0),
-                            spacerSize: 2.0,
-                            minWidth: 24.0,
-                            minHeight: 52.0,
-                          ),
-                    ],
-                  ),
+                  if (data.forecast != null &&
+                      data.forecast![Sources.south] != null)
+                    ForecastRow(data.forecast![Sources.south]!)
+                  else
+                    Container(),
                   Container(),
                 ],
               ),
