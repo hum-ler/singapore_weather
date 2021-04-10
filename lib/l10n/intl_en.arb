@@ -31,6 +31,14 @@
       }
     }
   },
+  "shortForecastTypeLabel": "{type, select, predawn{Pre} morning{Mrng} afternoon{Aftn} night{Ngt} other{Oth}}",
+  "@shortForecastTypeLabel": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
   "snackBarGeolocationExceptionPrefix": "Cannot get user location — ",
   "snackBarRetryButtonLabel": "RETRY",
   "snackBarWeatherExceptionPrefix": "Cannot get weather data — ",

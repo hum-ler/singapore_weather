@@ -6,7 +6,7 @@ import '../generated/l10n.dart';
 import '../models/forecast.dart';
 import '../models/source.dart';
 import '../models/weather_model.dart';
-import 'home/wrapped_icon.dart';
+import 'home/forecast_tile.dart';
 
 /// The island-wide forecast screen.
 class Island extends StatelessWidget {
@@ -51,15 +51,20 @@ class Island extends StatelessWidget {
                           data.forecast![Sources.north] != null)
                         for (final Forecast forecast
                             in data.forecast![Sources.north]!)
-                          WrappedIcon(
+                          ForecastTile(
                             forecast.icon,
-                            size: 24.0,
+                            S.of(context).shortForecastTypeLabel(forecast.type),
+                            iconSize: 24.0,
+                            labelStyle: TextStyle(fontSize: 12.0),
+                            spacerSize: 2.0,
+                            minWidth: 24.0,
+                            minHeight: 52.0,
                           ),
                     ],
                   ),
                   Container(),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
+                    padding: const EdgeInsets.only(bottom: 24.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -67,9 +72,16 @@ class Island extends StatelessWidget {
                             data.forecast![Sources.west] != null)
                           for (final Forecast forecast
                               in data.forecast![Sources.west]!)
-                            WrappedIcon(
+                            ForecastTile(
                               forecast.icon,
-                              size: 24.0,
+                              S
+                                  .of(context)
+                                  .shortForecastTypeLabel(forecast.type),
+                              iconSize: 24.0,
+                              labelStyle: TextStyle(fontSize: 12.0),
+                              spacerSize: 2.0,
+                              minWidth: 24.0,
+                              minHeight: 52.0,
                             ),
                       ],
                     ),
@@ -81,14 +93,19 @@ class Island extends StatelessWidget {
                           data.forecast![Sources.central] != null)
                         for (final Forecast forecast
                             in data.forecast![Sources.central]!)
-                          WrappedIcon(
+                          ForecastTile(
                             forecast.icon,
-                            size: 24.0,
+                            S.of(context).shortForecastTypeLabel(forecast.type),
+                            iconSize: 24.0,
+                            labelStyle: TextStyle(fontSize: 12.0),
+                            spacerSize: 2.0,
+                            minWidth: 24.0,
+                            minHeight: 52.0,
                           ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
+                    padding: const EdgeInsets.only(top: 24.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -96,9 +113,16 @@ class Island extends StatelessWidget {
                             data.forecast![Sources.east] != null)
                           for (final Forecast forecast
                               in data.forecast![Sources.east]!)
-                            WrappedIcon(
+                            ForecastTile(
                               forecast.icon,
-                              size: 24.0,
+                              S
+                                  .of(context)
+                                  .shortForecastTypeLabel(forecast.type),
+                              iconSize: 24.0,
+                              labelStyle: TextStyle(fontSize: 12.0),
+                              spacerSize: 2.0,
+                              minWidth: 24.0,
+                              minHeight: 52.0,
                             ),
                       ],
                     ),
@@ -111,9 +135,14 @@ class Island extends StatelessWidget {
                           data.forecast![Sources.south] != null)
                         for (final Forecast forecast
                             in data.forecast![Sources.south]!)
-                          WrappedIcon(
+                          ForecastTile(
                             forecast.icon,
-                            size: 24.0,
+                            S.of(context).shortForecastTypeLabel(forecast.type),
+                            iconSize: 24.0,
+                            labelStyle: TextStyle(fontSize: 12.0),
+                            spacerSize: 2.0,
+                            minWidth: 24.0,
+                            minHeight: 52.0,
                           ),
                     ],
                   ),
