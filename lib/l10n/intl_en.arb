@@ -22,6 +22,7 @@
     }
   },
   "geolocationExceptionUnexpectedResponse": "unexpected response from service",
+  "islandScreenTitle": "Island-wide Forecast",
   "regionNameLabel": "{name, select, central{Central} north{North} east{East} south {South} west{West} other{Other}}",
   "@regionNameLabel": {
     "placeholders": {

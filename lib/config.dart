@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 
 //#region main
 
-const Color appPrimaryColor = Colors.deepOrange;
+/// The primary color for the app.
+///
+/// Applied in the app bar.
+final Color appPrimaryColor = Colors.grey.shade800;
+
+/// The secondary color for the app.
+///
+/// Applied in the island map background.
+final Color appSecondaryColor = Colors.grey.shade700;
 
 //#endregion
 
@@ -124,6 +132,18 @@ final Color detailsProblemColor = Colors.grey;
 /// The color for summary elements that are problematic (out-of-bound / -range /
 /// expired).
 final Color summaryProblemColor = Colors.grey;
+
+//#endregion
+
+//#region screens/island
+
+/// The island image asset.
+///
+/// This is a transparent PNG of the silhouette of Singapore island.
+const AssetImage islandImage = AssetImage('assets/images/island.png');
+
+/// The hero tag for [islandImage].
+const String islandImageTag = 'island';
 
 //#endregion
 

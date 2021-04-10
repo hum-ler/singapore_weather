@@ -8,7 +8,9 @@ import '../../models/forecast.dart';
 import '../../models/weather_model.dart';
 import '../../services/geolocation.dart';
 import '../../services/weather.dart';
+import '../island.dart';
 import 'forecast_tile.dart';
+import 'island_button.dart';
 import 'wrapped_icon.dart';
 
 /// Draws the background and key information on the main screen.
@@ -95,57 +97,72 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                     ),
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Row(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        if (data.temperature != null)
-                          Text(
-                            '${data.temperature!.value.round()}°',
-                            style: TextStyle(
-                              fontSize: 96.0,
-                              fontWeight: FontWeight.bold,
-                              color: data.temperature!.isValid
-                                  ? null
-                                  : K.summaryProblemColor,
-                            ),
-                          ),
-                        if (data.condition != null)
-                          WrappedIcon(
-                            data.condition!.icon,
-                            size: 96.0,
-                            color: data.condition!.isValid
-                                ? null
-                                : K.summaryProblemColor,
-                          ),
-                      ],
-                    ),
-                    if (data.forecast != null)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          for (final Forecast forecast in data.forecast!)
-                            ForecastTile(
-                              forecast.icon,
-                              S.of(context).forecastTypeLabel(forecast.type),
-                              iconSize: 48.0,
-                              iconColor: forecast.isValid
-                                  ? null
-                                  : K.summaryProblemColor,
-                              labelStyle: TextStyle(
-                                fontSize: 14.0,
-                                color: forecast.isValid
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (data.temperature != null)
+                              Text(
+                                '${data.temperature!.value.round()}°',
+                                style: TextStyle(
+                                  fontSize: 96.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: data.temperature!.isValid
+                                      ? null
+                                      : K.summaryProblemColor,
+                                ),
+                              ),
+                            if (data.condition != null)
+                              WrappedIcon(
+                                data.condition!.icon,
+                                size: 96.0,
+                                color: data.condition!.isValid
                                     ? null
                                     : K.summaryProblemColor,
                               ),
-                            ),
-                        ],
-                      ),
+                          ],
+                        ),
+                        if (data.region != null &&
+                            data.forecast != null &&
+                            data.forecast![data.region] != null)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              for (final Forecast forecast
+                                  in data.forecast![data.region]!)
+                                ForecastTile(
+                                  forecast.icon,
+                                  S
+                                      .of(context)
+                                      .forecastTypeLabel(forecast.type),
+                                  iconSize: 48.0,
+                                  iconColor: forecast.isValid
+                                      ? null
+                                      : K.summaryProblemColor,
+                                  labelStyle: TextStyle(
+                                    fontSize: 14.0,
+                                    color: forecast.isValid
+                                        ? null
+                                        : K.summaryProblemColor,
+                                  ),
+                                ),
+                            ],
+                          ),
+                      ],
+                    ),
+                    Positioned(
+                      top: 20.0,
+                      right: 20.0,
+                      child: IslandButton(onPressed: _onIslandPressed),
+                    ),
                   ],
                 ),
               ),
@@ -198,6 +215,14 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
               )
             : null,
       ),
+    );
+  }
+
+  /// Handles a tap on the island button.
+  void _onIslandPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Island()),
     );
   }
 }

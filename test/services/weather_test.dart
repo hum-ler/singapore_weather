@@ -268,6 +268,7 @@ main() {
         windDirection: anyNamed('windDirection'),
         pm2_5: anyNamed('pm2_5'),
         condition: anyNamed('condition'),
+        region: anyNamed('region'),
         forecast: anyNamed('forecast'),
       ));
     });
