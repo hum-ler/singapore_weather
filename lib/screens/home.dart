@@ -2,11 +2,12 @@ import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';
-
 import 'about.dart';
 import 'home/details.dart';
 import 'home/handle.dart';
+import 'home/island_button.dart';
 import 'home/summary.dart';
+import 'island.dart';
 
 /// The main screen.
 class Home extends StatelessWidget {
@@ -32,14 +33,27 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-      body: ExpandableBottomSheet(
-        animationCurveExpand: Curves.elasticOut,
-        animationDurationExtend: const Duration(milliseconds: 300),
-        animationCurveContract: Curves.elasticOut,
-        animationDurationContract: const Duration(milliseconds: 300),
-        background: Summary(refreshDataAtStartUp: refreshDataAtStartUp),
-        persistentHeader: Handle(),
-        expandableContent: Details(),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          ExpandableBottomSheet(
+            animationCurveExpand: Curves.elasticOut,
+            animationDurationExtend: const Duration(milliseconds: 300),
+            animationCurveContract: Curves.elasticOut,
+            animationDurationContract: const Duration(milliseconds: 300),
+            background: Summary(refreshDataAtStartUp: refreshDataAtStartUp),
+            persistentHeader: Handle(),
+            expandableContent: Details(),
+          ),
+          Positioned(
+            top: 20.0,
+            right: 20.0,
+            child: IslandButton(
+              size: 56.0,
+              onPressed: () => _onIslandPressed(context),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -49,6 +63,14 @@ class Home extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => About()),
+    );
+  }
+
+  /// Handles a tap on the island button.
+  void _onIslandPressed(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Island()),
     );
   }
 }
