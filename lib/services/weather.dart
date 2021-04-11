@@ -12,6 +12,7 @@ import '../models/json_reading_model.dart';
 import '../models/reading.dart';
 import '../models/source.dart';
 import '../models/weather_model.dart';
+import '../utils/date_time_ext.dart';
 import '../utils/http_utils.dart';
 import '../utils/math_utils.dart';
 import '../utils/string_ext.dart';
@@ -207,7 +208,7 @@ class Weather {
           .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
     }
 
-    final DateTime creation = data.items.first.timestamp.toLocal();
+    final DateTime creation = data.items.first.timestamp.toSgt();
 
     return data.items.first.readings.map((e) {
       // Create all the Readings first, then reduce to the nearest one.
@@ -258,7 +259,7 @@ class Weather {
       );
     }
 
-    final DateTime creation = data.items.first.timestamp.toLocal();
+    final DateTime creation = data.items.first.timestamp.toSgt();
 
     return ['central', 'north', 'east', 'south', 'west'].map((e) {
       // Create the Reading for each region, then reduce to the nearest one.
@@ -298,7 +299,7 @@ class Weather {
       throw WeatherException(S.current.weatherExceptionUnexpectedCondition);
     }
 
-    final DateTime creation = data.items.first.timestamp.toLocal();
+    final DateTime creation = data.items.first.timestamp.toSgt();
 
     return data.items.first.forecasts.map((e) {
       // Create the Forecast for each area, then reduce to the nearest one.
@@ -354,7 +355,7 @@ class Weather {
       throw WeatherException(S.current.weatherExceptionUnexpectedForecast);
     }
 
-    final DateTime creation = data.items.first.timestamp.toLocal();
+    final DateTime creation = data.items.first.timestamp.toSgt();
 
     final Map<Source, List<Forecast>> forecast = {
       Sources.central: [],
@@ -366,7 +367,7 @@ class Weather {
     data.items.first.periods.forEach((e) {
       // Determine the forecast type.
       ForecastType type;
-      DateTime startTime = e.time.start.toLocal();
+      DateTime startTime = e.time.start.toSgt();
       switch (startTime.hour) {
         case 0:
           type = ForecastType.predawn;
