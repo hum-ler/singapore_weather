@@ -7,6 +7,8 @@ import 'package:singapore_weather/generated/l10n.dart';
 import 'package:singapore_weather/models/weather_model.dart';
 import 'package:singapore_weather/screens/about.dart';
 import 'package:singapore_weather/screens/home.dart';
+import 'package:singapore_weather/screens/home/island_button.dart';
+import 'package:singapore_weather/screens/island.dart';
 import 'package:singapore_weather/services/geolocation.dart';
 import 'package:singapore_weather/services/weather.dart';
 
@@ -95,6 +97,39 @@ main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(About), findsOneWidget);
+    });
+
+    testWidgets('island button tap => about screen',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>(
+              create: (context) => WeatherModel(),
+            ),
+            Provider<Geolocation>(
+              create: (context) => MockGeolocation(),
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Home(refreshDataAtStartUp: false),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(IslandButton), findsOneWidget);
+      expect(find.byType(Island), findsNothing);
+
+      await tester.tap(find.byType(IslandButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Island), findsOneWidget);
     });
 
     testWidgets('screen drag downwards => Weather.refresh()',
