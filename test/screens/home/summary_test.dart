@@ -262,29 +262,32 @@ main() {
       final WeatherModel data = WeatherModel();
       data.update(
         timestamp: DateTime.now(),
-        forecast: [
-          Forecast(
-            type: ForecastType.morning,
-            creation: DateTime.now(),
-            condition: 'Partly Cloudy (Day)',
-            source: Sources.central,
-            userLocation: Sources.central.location,
-          ),
-          Forecast(
-            type: ForecastType.afternoon,
-            creation: DateTime.now(),
-            condition: 'Partly Cloudy (Day)',
-            source: Sources.central,
-            userLocation: Sources.central.location,
-          ),
-          Forecast(
-            type: ForecastType.night,
-            creation: DateTime.now(),
-            condition: 'Partly Cloudy (Night)',
-            source: Sources.central,
-            userLocation: Sources.central.location,
-          ),
-        ],
+        region: Sources.central,
+        forecast: {
+          Sources.central: [
+            Forecast(
+              type: ForecastType.morning,
+              creation: DateTime.now(),
+              condition: 'Partly Cloudy (Day)',
+              source: Sources.central,
+              userLocation: Sources.central.location,
+            ),
+            Forecast(
+              type: ForecastType.afternoon,
+              creation: DateTime.now(),
+              condition: 'Partly Cloudy (Day)',
+              source: Sources.central,
+              userLocation: Sources.central.location,
+            ),
+            Forecast(
+              type: ForecastType.night,
+              creation: DateTime.now(),
+              condition: 'Partly Cloudy (Night)',
+              source: Sources.central,
+              userLocation: Sources.central.location,
+            ),
+          ],
+        },
       );
 
       await tester.pumpWidget(
@@ -329,29 +332,32 @@ main() {
       final WeatherModel data = WeatherModel();
       data.update(
         timestamp: DateTime.now(),
-        forecast: [
-          Forecast(
-            type: ForecastType.morning,
-            creation: DateTime.now(),
-            condition: 'Partly Cloudy (Day)',
-            source: Sources.central,
-            userLocation: Sources.central.location,
-          ),
-          Forecast(
-            type: ForecastType.afternoon,
-            creation: DateTime.now(),
-            condition: 'Partly Cloudy (Day)',
-            source: Sources.east,
-            userLocation: Sources.west.location,
-          ),
-          Forecast(
-            type: ForecastType.night,
-            creation: DateTime.now(),
-            condition: 'Partly Cloudy (Night)',
-            source: Sources.central,
-            userLocation: Sources.central.location,
-          ),
-        ],
+        region: Sources.central,
+        forecast: {
+          Sources.central: [
+            Forecast(
+              type: ForecastType.morning,
+              creation: DateTime.now(),
+              condition: 'Partly Cloudy (Day)',
+              source: Sources.central,
+              userLocation: Sources.central.location,
+            ),
+            Forecast(
+              type: ForecastType.afternoon,
+              creation: DateTime.now(),
+              condition: 'Partly Cloudy (Day)',
+              source: Sources.east,
+              userLocation: Sources.west.location,
+            ),
+            Forecast(
+              type: ForecastType.night,
+              creation: DateTime.now(),
+              condition: 'Partly Cloudy (Night)',
+              source: Sources.central,
+              userLocation: Sources.central.location,
+            ),
+          ],
+        },
       );
 
       await tester.pumpWidget(

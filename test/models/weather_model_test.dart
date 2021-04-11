@@ -34,7 +34,8 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
 
     weatherModel.refresh(
       timestamp: DateTime.now(),
@@ -45,6 +46,7 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
     );
 
@@ -72,6 +74,7 @@ main() {
     expect(weatherModel.windDirection, isNull);
     expect(weatherModel.pm2_5, isNull);
     expect(weatherModel.condition, isNull);
+    expect(weatherModel.region, isNull);
     expect(weatherModel.forecast, isNull);
 
     final Reading reading = Reading(
@@ -87,7 +90,8 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
     weatherModel.refresh(
       timestamp: DateTime.now(),
       temperature: reading,
@@ -97,6 +101,7 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
     );
     weatherModel.clear();
@@ -109,6 +114,7 @@ main() {
     expect(weatherModel.windDirection, isNull);
     expect(weatherModel.pm2_5, isNull);
     expect(weatherModel.condition, isNull);
+    expect(weatherModel.region, isNull);
     expect(weatherModel.forecast, isNull);
   });
 
@@ -128,7 +134,8 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
     weatherModel.refresh(
       timestamp: timestamp,
       temperature: reading,
@@ -138,6 +145,7 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
     );
 
@@ -149,6 +157,7 @@ main() {
     expect(weatherModel.windDirection, equals(reading));
     expect(weatherModel.pm2_5, equals(reading));
     expect(weatherModel.condition, equals(condition));
+    expect(weatherModel.region, equals(region));
     expect(weatherModel.forecast, equals(forecast));
   });
 
@@ -168,7 +177,8 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
     weatherModel.update(
       timestamp: timestamp,
       temperature: reading,
@@ -178,6 +188,7 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
     );
 
@@ -189,6 +200,7 @@ main() {
     expect(weatherModel.windDirection, equals(reading));
     expect(weatherModel.pm2_5, equals(reading));
     expect(weatherModel.condition, equals(condition));
+    expect(weatherModel.region, equals(region));
     expect(weatherModel.forecast, equals(forecast));
   });
 }

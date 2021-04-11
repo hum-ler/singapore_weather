@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 
 //#region main
 
+/// The primary color for the app.
+///
+/// Applied in the app bar.
 const Color appPrimaryColor = Colors.deepOrange;
+
+/// The secondary color for the app.
+///
+/// Applied in the island map background.
+final Color appSecondaryColor = Colors.deepOrange.shade200;
 
 //#endregion
 
@@ -115,7 +123,7 @@ const String truncationEllipsis = '…';
 
 /// The color for details that are problematic (out-of-bound / -range /
 /// expired).
-final Color detailsProblemColor = Colors.grey;
+const Color detailsProblemColor = Colors.grey;
 
 //#endregion
 
@@ -123,7 +131,27 @@ final Color detailsProblemColor = Colors.grey;
 
 /// The color for summary elements that are problematic (out-of-bound / -range /
 /// expired).
-final Color summaryProblemColor = Colors.grey;
+const Color summaryProblemColor = Colors.grey;
+
+//#endregion
+
+//#region screens/island
+
+/// The island image asset.
+///
+/// This is a transparent PNG of the silhouette of Singapore island.
+const AssetImage islandImage = AssetImage('assets/images/island.png');
+
+/// The hero tag for [islandImage].
+const String islandImageTag = 'island';
+
+//#endregion
+
+//#region screens/island/forecast_row
+
+/// The color for island screen elements that are problematic (out-of-bound /
+/// -range / expired).
+const Color islandProblemColor = Colors.grey;
 
 //#endregion
 

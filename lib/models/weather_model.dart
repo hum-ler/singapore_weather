@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'condition.dart';
 import 'forecast.dart';
 import 'reading.dart';
+import 'source.dart';
 
 /// Collection of weather data to be maintained in state.
 class WeatherModel extends ChangeNotifier {
@@ -30,8 +31,11 @@ class WeatherModel extends ChangeNotifier {
   /// The weather condition.
   Condition? _condition;
 
+  /// The nearest region.
+  Source? _region;
+
   /// The weather forecast.
-  Iterable<Forecast>? _forecast;
+  Map<Source, Iterable<Forecast>>? _forecast;
 
   /// The timestamp of the last modification.
   DateTime? get timestamp => _timestamp;
@@ -57,8 +61,11 @@ class WeatherModel extends ChangeNotifier {
   /// The weather condition.
   Condition? get condition => _condition;
 
+  /// The nearest region.
+  Source? get region => _region;
+
   /// The weather forecast.
-  Iterable<Forecast>? get forecast => _forecast;
+  Map<Source, Iterable<Forecast>>? get forecast => _forecast;
 
   /// Resets all fields to null.
   void clear() {
@@ -70,6 +77,7 @@ class WeatherModel extends ChangeNotifier {
     _windDirection = null;
     _pm2_5 = null;
     _condition = null;
+    _region = null;
     _forecast = null;
 
     notifyListeners();
@@ -85,7 +93,8 @@ class WeatherModel extends ChangeNotifier {
     required Reading? windDirection,
     required Reading? pm2_5,
     required Condition? condition,
-    required Iterable<Forecast>? forecast,
+    required Source? region,
+    required Map<Source, Iterable<Forecast>>? forecast,
   }) {
     _timestamp = timestamp;
     _temperature = temperature;
@@ -95,6 +104,7 @@ class WeatherModel extends ChangeNotifier {
     _windDirection = windDirection;
     _pm2_5 = pm2_5;
     _condition = condition;
+    _region = region;
     _forecast = forecast;
 
     notifyListeners();
@@ -113,7 +123,8 @@ class WeatherModel extends ChangeNotifier {
     Reading? windDirection,
     Reading? pm2_5,
     Condition? condition,
-    Iterable<Forecast>? forecast,
+    Source? region,
+    Map<Source, Iterable<Forecast>>? forecast,
   }) {
     _timestamp = timestamp;
     if (temperature != null) _temperature = temperature;
@@ -123,6 +134,7 @@ class WeatherModel extends ChangeNotifier {
     if (windDirection != null) _windDirection = windDirection;
     if (pm2_5 != null) _pm2_5 = pm2_5;
     if (condition != null) _condition = condition;
+    if (region != null) _region = region;
     if (forecast != null) _forecast = forecast;
 
     notifyListeners();

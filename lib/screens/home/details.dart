@@ -40,8 +40,10 @@ class Details extends StatelessWidget {
                 ReadingDetail(data.windDirection!),
               if (data.pm2_5 != null) ReadingDetail(data.pm2_5!),
               if (data.condition != null) ConditionDetail(data.condition!),
-              if (data.forecast != null)
-                for (Forecast forecast in data.forecast!)
+              if (data.region != null &&
+                  data.forecast != null &&
+                  data.forecast![data.region] != null)
+                for (final Forecast forecast in data.forecast![data.region]!)
                   ForecastDetail(forecast),
             ],
           ),

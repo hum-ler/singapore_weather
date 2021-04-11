@@ -102,7 +102,8 @@ class Weather {
       data: conditionModel,
       userLocation: userLocation,
     );
-    final Iterable<Forecast> forecast = _deriveNearestForecast(
+    final Source region = _deriveNearestRegion(userLocation: userLocation);
+    final Map<Source, Iterable<Forecast>> forecast = _deriveForecast(
       data: forecastModel,
       userLocation: userLocation,
     );
@@ -116,6 +117,7 @@ class Weather {
       windDirection: windDirection,
       pm2_5: pm2_5,
       condition: condition,
+      region: region,
       forecast: forecast,
     );
   }
@@ -321,10 +323,26 @@ class Weather {
     }).reduce((v, e) => v.distance < e.distance ? v : e);
   }
 
-  /// Forms the set of forecasts that is closest to [userLocation].
+  /// Gets the region (defined in [Sources]) that is closest to [userLocation].
+  Source _deriveNearestRegion({required Geoposition userLocation}) {
+    return [
+      Sources.central,
+      Sources.north,
+      Sources.east,
+      Sources.south,
+      Sources.west,
+    ].reduce(
+      (v, e) => v.location.distanceFrom(userLocation) <
+              e.location.distanceFrom(userLocation)
+          ? v
+          : e,
+    );
+  }
+
+  /// Forms the set of forecasts for all regions defined in [Sources].
   ///
   /// If [data] contains invalid content, a [WeatherException] will be thrown.
-  Iterable<Forecast> _deriveNearestForecast({
+  Map<Source, Iterable<Forecast>> _deriveForecast({
     required Json24HourForecastModel data,
     required Geoposition userLocation,
   }) {
@@ -338,24 +356,16 @@ class Weather {
 
     final DateTime creation = data.items.first.timestamp.toLocal();
 
-    // Get the region (predefined in Sources) that is closest to userLocation.
-    Source nearestRegion = [
-      Sources.central,
-      Sources.north,
-      Sources.east,
-      Sources.south,
-      Sources.west
-    ].reduce(
-      (v, e) => v.location.distanceFrom(userLocation) <
-              e.location.distanceFrom(userLocation)
-          ? v
-          : e,
-    );
-
-    final List<Forecast> forecast = [];
+    final Map<Source, List<Forecast>> forecast = {
+      Sources.central: [],
+      Sources.north: [],
+      Sources.east: [],
+      Sources.south: [],
+      Sources.west: [],
+    };
     data.items.first.periods.forEach((e) {
       // Determine the forecast type.
-      ForecastType type = ForecastType.immediate;
+      ForecastType type;
       DateTime startTime = e.time.start.toLocal();
       switch (startTime.hour) {
         case 0:
@@ -378,13 +388,17 @@ class Weather {
           throw WeatherException(S.current.weatherExceptionUnexpectedForecast);
       }
 
-      forecast.add(Forecast(
-        type: type,
-        creation: creation,
-        source: nearestRegion,
-        userLocation: userLocation,
-        condition: e.regions[nearestRegion.name]!,
-      ));
+      forecast.forEach((k, v) {
+        v.add(
+          Forecast(
+            type: type,
+            creation: creation,
+            source: k,
+            userLocation: userLocation,
+            condition: e.regions[k.name]!,
+          ),
+        );
+      });
     });
 
     return forecast;

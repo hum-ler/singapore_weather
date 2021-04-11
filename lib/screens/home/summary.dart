@@ -124,12 +124,15 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                           ),
                       ],
                     ),
-                    if (data.forecast != null)
+                    if (data.region != null &&
+                        data.forecast != null &&
+                        data.forecast![data.region] != null)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          for (final Forecast forecast in data.forecast!)
+                          for (final Forecast forecast
+                              in data.forecast![data.region]!)
                             ForecastTile(
                               forecast.icon,
                               S.of(context).forecastTypeLabel(forecast.type),
