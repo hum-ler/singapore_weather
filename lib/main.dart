@@ -35,7 +35,26 @@ void main() {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        theme: ThemeData.dark().copyWith(primaryColor: K.appPrimaryColor),
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: K.appLightColor,
+          accentColor: K.appDarkColor,
+          snackBarTheme: SnackBarThemeData(
+            backgroundColor: ThemeData.light().canvasColor,
+            contentTextStyle: TextStyle(color: Colors.black),
+            actionTextColor: K.appDarkColor,
+          ),
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: K.appDarkColor,
+          accentColor: K.appLightColor,
+          snackBarTheme: SnackBarThemeData(
+            backgroundColor: ThemeData.dark().canvasColor,
+            contentTextStyle: TextStyle(color: Colors.white),
+            actionTextColor: K.appLightColor,
+          ),
+        ),
         home: Home(),
       ),
     ),

@@ -29,7 +29,9 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: K.appPrimaryColor,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? K.appDarkColor
+          : K.appLightColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
