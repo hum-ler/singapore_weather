@@ -30,10 +30,14 @@ flutter pub run build_runner build
 > - Drag downwards to refresh data.
 >
 > - Drag upwards from bottom third of the screen to reveal weather details.
+>
+> - Tap top-right island button to show regional 24-hour forecast.
 
 ## Acknowledgement
 
-[Data.gov.sg](https://data.gov.sg/) datasets licensed under [Singapore Open Data License](https://data.gov.sg/open-data-licence). Access via API is subject to [API Terms of Service](https://data.gov.sg/privacy-and-website-terms#api-terms).
+[Data.gov.sg](https://data.gov.sg/) datasets licensed under [Singapore Open Data License 1.0](https://data.gov.sg/open-data-licence). Access via API is subject to [API Terms of Service](https://data.gov.sg/privacy-and-website-terms#api-terms).
+
+Singapore map adapted from [OneMap](https://www.onemap.gov.sg/main/v2/) licensed under [Singapore Open Data Licence 1.0](https://www.onemap.gov.sg/legal/opendatalicence.html).
 
 [Weather Icons](https://erikflowers.github.io/weather-icons/) licensed under [SIL OFL 1.1](http://scripts.sil.org/OFL).
 

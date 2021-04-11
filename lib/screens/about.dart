@@ -33,10 +33,8 @@ class About extends StatelessWidget {
                   color: K.appPrimaryColor.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                blockquotePadding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
-                ),
+                blockquotePadding:
+                    const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 12.0),
               ),
             ),
           ),
