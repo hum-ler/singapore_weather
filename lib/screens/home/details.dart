@@ -22,9 +22,7 @@ class Details extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.black.withOpacity(0.4)
-              : Colors.white.withOpacity(0.4),
+          color: Theme.of(context).primaryColor.withOpacity(0.5),
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 8.0,
