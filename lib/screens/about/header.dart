@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:weather_icons/weather_icons.dart';
 
-import '../../config.dart' as K;
 import '../../generated/l10n.dart';
 
 /// Draws the header (below the app bar) on the about screen.
@@ -29,9 +28,7 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).brightness == Brightness.dark
-          ? K.appDarkColor
-          : K.appLightColor,
+      color: Theme.of(context).primaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,

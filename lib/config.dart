@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
 
-//#region main
-
-/// The dark color for the app.
-///
-/// Used as the primary color in the dark theme, and the accent color in the
-/// light theme.
-const Color appDarkColor = Colors.deepOrange;
-
-/// The light color for the app.
-///
-/// Used as the primary color in the light theme, and the accent color in the
-/// dark theme.
-final Color appLightColor = Colors.deepOrange.shade200;
-
-//#endregion
-
 //#region models/condition
 
 /// The validity period for a condition.
@@ -161,6 +145,22 @@ const Color islandProblemColor = Colors.grey;
 
 /// The timeout when calling Location.getLocation().
 const Duration getLocationTimeout = Duration(seconds: 10);
+
+//#endregion
+
+//#region services/preferences
+
+/// The default dark color for the app.
+///
+/// Used as the primary color in the dark theme, and the accent color in the
+/// light theme.
+const Color appDarkColor = Colors.deepOrange;
+
+/// The default light color for the app.
+///
+/// Used as the primary color in the light theme, and the accent color in the
+/// dark theme.
+final Color appLightColor = Colors.deepOrange.shade200;
 
 //#endregion
 

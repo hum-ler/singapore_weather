@@ -29,9 +29,7 @@ class IslandButton extends StatelessWidget {
         maxWidth: size,
         minWidth: size,
       ),
-      fillColor: Theme.of(context).brightness == Brightness.dark
-          ? K.appLightColor
-          : K.appDarkColor,
+      fillColor: Theme.of(context).accentColor,
       clipBehavior: Clip.antiAlias,
       padding: EdgeInsets.zero,
       child: SizedBox(
@@ -40,9 +38,7 @@ class IslandButton extends StatelessWidget {
           tag: K.islandImageTag,
           child: Image(
             image: K.islandImage,
-            color: Theme.of(context).brightness == Brightness.dark
-                ? K.appDarkColor
-                : K.appLightColor,
+            color: Theme.of(context).primaryColor,
             colorBlendMode: BlendMode.srcIn,
             fit: BoxFit.fitHeight,
           ),
