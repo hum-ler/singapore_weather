@@ -8,6 +8,7 @@ import 'home/handle.dart';
 import 'home/island_button.dart';
 import 'home/summary.dart';
 import 'island.dart';
+import 'settings.dart';
 
 /// The main screen.
 class Home extends StatelessWidget {
@@ -27,6 +28,10 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.of(context).appTitle),
         actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () => _onSettingsPressed(context),
+          ),
           IconButton(
             icon: Icon(Icons.help),
             onPressed: () => _onAboutPressed(context),
@@ -55,6 +60,14 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  /// Handles a tap on the settings icon in the app bar.
+  void _onSettingsPressed(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Settings()),
     );
   }
 

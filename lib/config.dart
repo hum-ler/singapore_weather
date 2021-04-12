@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
 
-//#region main
-
-/// The dark color for the app.
-///
-/// Used as the primary color in the dark theme, and the accent color in the
-/// light theme.
-const Color appDarkColor = Colors.deepOrange;
-
-/// The light color for the app.
-///
-/// Used as the primary color in the light theme, and the accent color in the
-/// dark theme.
-final Color appLightColor = Colors.deepOrange.shade200;
-
-//#endregion
-
 //#region models/condition
 
 /// The validity period for a condition.
@@ -125,7 +109,7 @@ const String truncationEllipsis = '…';
 
 /// The color for details that are problematic (out-of-bound / -range /
 /// expired).
-const Color detailsProblemColor = Colors.grey;
+final Color detailsProblemColor = Colors.grey.shade600;
 
 //#endregion
 
@@ -133,7 +117,7 @@ const Color detailsProblemColor = Colors.grey;
 
 /// The color for summary elements that are problematic (out-of-bound / -range /
 /// expired).
-const Color summaryProblemColor = Colors.grey;
+final Color summaryProblemColor = Colors.grey.shade600;
 
 //#endregion
 
@@ -153,7 +137,48 @@ const String islandImageTag = 'island';
 
 /// The color for island screen elements that are problematic (out-of-bound /
 /// -range / expired).
-const Color islandProblemColor = Colors.grey;
+final Color islandProblemColor = Colors.grey.shade600;
+
+//#endregion
+
+//#region screens/settings
+
+/// The supported themes for the app.
+///
+/// This is a map of (key) dark color => \[dark color, light color\].
+///
+/// To force all values to be Colors, not MaterialColor (this is important for
+/// the map keys), use the 500 shade for MaterialColors.
+final Map<Color, List<Color>> supportedThemes = {
+  appDarkColor: [
+    appDarkColor, // Colors.black
+    appLightColor, // Colors.white
+  ],
+  Colors.pink.shade500: [
+    Colors.pink.shade500,
+    Colors.pink.shade100,
+  ],
+  Colors.deepOrange.shade500: [
+    Colors.deepOrange.shade500,
+    Colors.deepOrange.shade200,
+  ],
+  Colors.green.shade700: [
+    Colors.green.shade700,
+    Colors.green.shade200,
+  ],
+  Colors.lightBlue.shade900: [
+    Colors.lightBlue.shade900,
+    Colors.lightBlue.shade300,
+  ],
+  Colors.blueGrey.shade700: [
+    Colors.blueGrey.shade700,
+    Colors.blueGrey.shade200,
+  ],
+  Colors.grey.shade800: [
+    Colors.grey.shade800,
+    Colors.grey.shade400,
+  ],
+};
 
 //#endregion
 
@@ -161,6 +186,22 @@ const Color islandProblemColor = Colors.grey;
 
 /// The timeout when calling Location.getLocation().
 const Duration getLocationTimeout = Duration(seconds: 10);
+
+//#endregion
+
+//#region services/preferences
+
+/// The default dark color for the app.
+///
+/// Used as the primary color in the dark theme, and the accent color in the
+/// light theme.
+const Color appDarkColor = Colors.black;
+
+/// The default light color for the app.
+///
+/// Used as the primary color in the light theme, and the accent color in the
+/// dark theme.
+const Color appLightColor = Colors.white;
 
 //#endregion
 
