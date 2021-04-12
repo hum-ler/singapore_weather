@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../config.dart' as K;
 import '../generated/l10n.dart';
 import '../services/preferences.dart';
 
@@ -11,36 +12,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  /// Hardcoded set of support themes.
-  ///
-  /// The dark color is used as the key.
-  static final Map<Color, List<Color>> _themes = {
-    Colors.black: [
-      Colors.black,
-      Colors.white,
-    ],
-    Colors.deepOrange.shade500: [
-      Colors.deepOrange.shade500,
-      Colors.deepOrange.shade200,
-    ],
-    Colors.grey.shade800: [
-      Colors.grey.shade800,
-      Colors.grey.shade400,
-    ],
-  };
-
-  /// The list of DropdownMenuItems for theme selection.
-  late final List<DropdownMenuItem<Color>> _items;
-
   /// The selected theme.
   Color? _theme;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _items = _generateDropdownListItems();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +30,15 @@ class _SettingsState extends State<Settings> {
             ),
             Consumer<Preferences>(
               builder: (context, prefs, child) => DropdownButton<Color>(
-                value: _theme ?? prefs.darkColor,
-                items: _items,
+                value: _theme ??
+                    // Make sure that previously saved value is valid.
+                    (K.supportedThemes[prefs.darkColor] != null
+                        ? prefs.darkColor
+                        : K.appDarkColor),
+                items: _generateDropdownListItems(context),
                 icon: Container(),
                 underline: Container(),
-                onChanged: (v) => _onThemeSelected(v!, prefs),
+                onChanged: (v) => _onThemeSelected(v, prefs),
               ),
             ),
           ],
@@ -71,20 +48,25 @@ class _SettingsState extends State<Settings> {
   }
 
   /// Handles a selected theme value.
-  void _onThemeSelected(Color color, Preferences prefs) {
-    setState(() {
-      _theme = color;
-    });
-    prefs.setTheme(
-      darkColor: _themes[color]![0],
-      lightColor: _themes[color]![1],
-    );
+  void _onThemeSelected(Color? color, Preferences prefs) {
+    if (color != null) {
+      setState(() {
+        _theme = color;
+      });
+
+      prefs.setTheme(
+        darkColor: K.supportedThemes[color]![0],
+        lightColor: K.supportedThemes[color]![1],
+      );
+    }
   }
 
   /// Generates list of theme selection DropdownMenuItems based on the content
   /// in [_themes].
-  List<DropdownMenuItem<Color>> _generateDropdownListItems() {
-    Iterable<List<Color>> values = _themes.values;
+  List<DropdownMenuItem<Color>> _generateDropdownListItems(
+    BuildContext context,
+  ) {
+    final Iterable<List<Color>> values = K.supportedThemes.values;
 
     return List.generate(
       values.length,
@@ -96,11 +78,27 @@ class _SettingsState extends State<Settings> {
               width: 64.0,
               height: 48.0,
               color: values.elementAt(i)[0],
+              alignment: Alignment.center,
+              child: Text(
+                S.of(context).darkThemeSampleText,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: ThemeData.dark().textTheme.bodyText1!.color,
+                ),
+              ),
             ),
             Container(
               width: 64.0,
               height: 48.0,
               color: values.elementAt(i)[1],
+              alignment: Alignment.center,
+              child: Text(
+                S.of(context).lightThemeSampleText,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: ThemeData.light().textTheme.bodyText1!.color,
+                ),
+              ),
             ),
           ],
         ),

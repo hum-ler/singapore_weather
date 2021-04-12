@@ -141,6 +141,47 @@ final Color islandProblemColor = Colors.grey.shade600;
 
 //#endregion
 
+//#region screens/settings
+
+/// The supported themes for the app.
+///
+/// This is a map of (key) dark color => \[dark color, light color\].
+///
+/// To force all values to be Colors, not MaterialColor (this is important for
+/// the map keys), use the 500 shade for MaterialColors.
+final Map<Color, List<Color>> supportedThemes = {
+  appDarkColor: [
+    appDarkColor, // Colors.black
+    appLightColor, // Colors.white
+  ],
+  Colors.pink.shade500: [
+    Colors.pink.shade500,
+    Colors.pink.shade100,
+  ],
+  Colors.deepOrange.shade500: [
+    Colors.deepOrange.shade500,
+    Colors.deepOrange.shade200,
+  ],
+  Colors.green.shade700: [
+    Colors.green.shade700,
+    Colors.green.shade200,
+  ],
+  Colors.lightBlue.shade900: [
+    Colors.lightBlue.shade900,
+    Colors.lightBlue.shade300,
+  ],
+  Colors.blueGrey.shade700: [
+    Colors.blueGrey.shade700,
+    Colors.blueGrey.shade200,
+  ],
+  Colors.grey.shade800: [
+    Colors.grey.shade800,
+    Colors.grey.shade400,
+  ],
+};
+
+//#endregion
+
 //#region services/geolocation
 
 /// The timeout when calling Location.getLocation().
