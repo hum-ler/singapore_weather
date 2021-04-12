@@ -90,7 +90,9 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                     image: data.condition?.background ?? K.defaultAssetImage,
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.6),
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Colors.black.withOpacity(0.6)
+                          : Colors.white.withOpacity(0.6),
                       BlendMode.srcATop,
                     ),
                   ),

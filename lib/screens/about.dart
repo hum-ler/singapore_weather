@@ -30,7 +30,9 @@ class About extends StatelessWidget {
               },
               styleSheet: MarkdownStyleSheet(
                 blockquoteDecoration: BoxDecoration(
-                  color: K.appPrimaryColor.withOpacity(0.4),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? K.appDarkColor.withOpacity(0.4)
+                      : K.appLightColor.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 blockquotePadding:

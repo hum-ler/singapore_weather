@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 //#region main
 
-/// The primary color for the app.
+/// The dark color for the app.
 ///
-/// Applied in the app bar.
-const Color appPrimaryColor = Colors.deepOrange;
+/// Used as the primary color in the dark theme, and the accent color in the
+/// light theme.
+const Color appDarkColor = Colors.deepOrange;
 
-/// The secondary color for the app.
+/// The light color for the app.
 ///
-/// Applied in the island map background.
-final Color appSecondaryColor = Colors.deepOrange.shade200;
+/// Used as the primary color in the light theme, and the accent color in the
+/// dark theme.
+final Color appLightColor = Colors.deepOrange.shade200;
 
 //#endregion
 

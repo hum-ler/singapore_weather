@@ -18,7 +18,11 @@ class Island extends StatelessWidget {
       body: Stack(
         children: [
           // The background color.
-          Container(color: K.appSecondaryColor),
+          Container(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? K.appLightColor
+                : K.appDarkColor,
+          ),
 
           // The map image.
           Container(
@@ -28,7 +32,9 @@ class Island extends StatelessWidget {
               child: Image(
                 image: K.islandImage,
                 fit: BoxFit.fitHeight,
-                color: K.appPrimaryColor,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? K.appDarkColor
+                    : K.appLightColor,
                 colorBlendMode: BlendMode.srcIn,
               ),
             ),
