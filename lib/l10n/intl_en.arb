@@ -31,6 +31,8 @@
       }
     }
   },
+  "settingsScreenTitle": "Settings",
+  "settingsThemeLabel": "Color theme",
   "shortForecastTypeLabel": "{type, select, predawn{Pre} morning{Mrng} afternoon{Aftn} night{Ngt} other{Oth}}",
   "@shortForecastTypeLabel": {
     "placeholders": {
