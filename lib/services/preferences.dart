@@ -32,18 +32,6 @@ class Preferences extends ChangeNotifier {
   /// dark theme.
   Color get lightColor => _lightColor;
 
-  /// The dark color for the app.
-  ///
-  /// Used as the primary color in the dark theme, and the accent color in the
-  /// light theme.
-  set darkColor(Color color) => _setDarkColor(color);
-
-  /// The light color for the app.
-  ///
-  /// Used as the primary color in the light theme, and the accent color in the
-  /// dark theme.
-  set lightColor(Color color) => _setLightColor(color);
-
   Preferences(SharedPreferences? sharedPreferences)
       : _sharedPreferences = sharedPreferences {
     _initPreferences();
@@ -83,27 +71,27 @@ class Preferences extends ChangeNotifier {
   }
 
   /// Sets [darkColor] and saves to disk.
-  Future<void> _setDarkColor(Color color) async {
+  Future<void> setDarkColor(Color color) async {
     if (_sharedPreferences == null) return;
 
     await _sharedPreferences!.setInt(_PreferenceKeys.darkColorR, color.red);
     await _sharedPreferences!.setInt(_PreferenceKeys.darkColorG, color.green);
     await _sharedPreferences!.setInt(_PreferenceKeys.darkColorB, color.blue);
 
-    _darkColor = darkColor;
+    _darkColor = color;
 
     notifyListeners();
   }
 
   /// Sets [lightColor] and saves to disk.
-  Future<void> _setLightColor(Color color) async {
+  Future<void> setLightColor(Color color) async {
     if (_sharedPreferences == null) return;
 
     await _sharedPreferences!.setInt(_PreferenceKeys.lightColorR, color.red);
     await _sharedPreferences!.setInt(_PreferenceKeys.lightColorG, color.green);
     await _sharedPreferences!.setInt(_PreferenceKeys.lightColorB, color.blue);
 
-    _lightColor = lightColor;
+    _lightColor = color;
 
     notifyListeners();
   }
