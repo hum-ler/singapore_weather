@@ -32,16 +32,16 @@ main() {
       expect(
         tester
             .elementList(find.byType(WrappedIcon))
-            .any((e) => (e.widget as WrappedIcon).color != null),
-        isFalse,
+            .every((e) => (e.widget as WrappedIcon).color == null),
+        isTrue,
       );
 
       expect(find.byType(Text), findsNWidgets(3));
       expect(
         tester
             .elementList(find.byType(Text))
-            .any((e) => (e.widget as Text).style!.color != null),
-        isFalse,
+            .every((e) => (e.widget as Text).style!.color == null),
+        isTrue,
       );
     });
 
