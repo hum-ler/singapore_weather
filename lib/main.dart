@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'generated/l10n.dart';
 import 'models/weather_model.dart';
@@ -17,8 +18,13 @@ void main() {
         ChangeNotifierProvider<WeatherModel>(
           create: (context) => WeatherModel(),
         ),
-        ChangeNotifierProvider<Preferences>(
-          create: (context) => Preferences(),
+        FutureProvider<SharedPreferences?>(
+          create: (context) => SharedPreferences.getInstance(),
+          initialData: null,
+        ),
+        ChangeNotifierProxyProvider<SharedPreferences?, Preferences>(
+          create: (context) => Preferences(null),
+          update: (context, shared, prefs) => Preferences(shared),
         ),
         Provider<Location>(
           create: (context) => Location(),
