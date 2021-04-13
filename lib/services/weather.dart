@@ -21,19 +21,21 @@ import 'geolocation.dart';
 /// The service that retrieves weather data.
 class Weather {
   /// Weather data object to populate.
-  final WeatherModel data;
+  final WeatherModel _data;
 
   /// Geolocation service.
-  final Geolocation location;
+  final Geolocation _location;
 
-  const Weather(this.data, this.location);
+  const Weather(WeatherModel data, Geolocation location)
+      : _data = data,
+        _location = location;
 
   /// Retrieve weather data from the online data service.
   ///
   /// Caller must provide [client] for persistent connection. After this method
   /// returns, caller must close the connection by calling [client.close()].
   Future<void> refresh(Client client) async {
-    final Geoposition userLocation = await location.getCurrentLocation();
+    final Geoposition userLocation = await _location.getCurrentLocation();
 
     final JsonReadingModel temperatureModel = await _fetchJsonReadingModel(
       client: client,
@@ -109,7 +111,7 @@ class Weather {
       userLocation: userLocation,
     );
 
-    data.refresh(
+    _data.refresh(
       timestamp: DateTime.now(),
       temperature: temperature,
       rain: rain,
