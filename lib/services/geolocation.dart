@@ -9,9 +9,9 @@ import '../models/geoposition.dart';
 /// The service that retrieves geolocation.
 class Geolocation {
   /// Location library.
-  final Location location;
+  final Location _location;
 
-  const Geolocation(this.location);
+  const Geolocation(Location location) : _location = location;
 
   /// Retrieves the current geolocation.
   ///
@@ -21,9 +21,9 @@ class Geolocation {
   /// If the operation fails, then a [GeolocationException] is thrown.
   Future<Geoposition> getCurrentLocation() async {
     bool serviceEnabled;
-    serviceEnabled = await location.serviceEnabled();
+    serviceEnabled = await _location.serviceEnabled();
     if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
+      serviceEnabled = await _location.requestService();
       if (!serviceEnabled) {
         return Future.error(
           GeolocationException(S.current.geolocationExceptionServiceDisabled),
@@ -32,10 +32,10 @@ class Geolocation {
     }
 
     PermissionStatus permissionGranted;
-    permissionGranted = await location.hasPermission();
+    permissionGranted = await _location.hasPermission();
     if (permissionGranted != PermissionStatus.granted &&
         permissionGranted != PermissionStatus.grantedLimited) {
-      permissionGranted = await location.requestPermission();
+      permissionGranted = await _location.requestPermission();
       if (permissionGranted != PermissionStatus.granted &&
           permissionGranted != PermissionStatus.grantedLimited) {
         return Future.error(
@@ -46,7 +46,8 @@ class Geolocation {
 
     final LocationData locationData;
     try {
-      locationData = await location.getLocation().timeout(K.getLocationTimeout);
+      locationData =
+          await _location.getLocation().timeout(K.getLocationTimeout);
       // Rethrow any errors as GeolocationExceptions.
     } on TimeoutException {
       return Future.error(

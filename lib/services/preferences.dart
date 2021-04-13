@@ -6,7 +6,7 @@ import '../config.dart' as K;
 /// The user preferences service.
 class Preferences extends ChangeNotifier {
   /// Instance of SharedPreferences.
-  late final SharedPreferences _sharedPreferences;
+  final SharedPreferences? _sharedPreferences;
 
   /// The dark color for the app.
   ///
@@ -32,69 +32,66 @@ class Preferences extends ChangeNotifier {
   /// dark theme.
   Color get lightColor => _lightColor;
 
-  /// The dark color for the app.
-  ///
-  /// Used as the primary color in the dark theme, and the accent color in the
-  /// light theme.
-  set darkColor(Color color) => _setDarkColor(color);
-
-  /// The light color for the app.
-  ///
-  /// Used as the primary color in the light theme, and the accent color in the
-  /// dark theme.
-  set lightColor(Color color) => _setLightColor(color);
-
-  Preferences() {
+  Preferences(SharedPreferences? sharedPreferences)
+      : _sharedPreferences = sharedPreferences {
     _initPreferences();
   }
 
   /// Loads preferences from disk.
   Future<void> _initPreferences() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
+    if (_sharedPreferences == null) return;
+
+    bool shouldNotifyListeners = false;
 
     // Read darkColor.
     final int? darkColorR =
-        _sharedPreferences.getInt(_PreferenceKeys.darkColorR);
+        _sharedPreferences!.getInt(_PreferenceKeys.darkColorR);
     final int? darkColorG =
-        _sharedPreferences.getInt(_PreferenceKeys.darkColorG);
+        _sharedPreferences!.getInt(_PreferenceKeys.darkColorG);
     final int? darkColorB =
-        _sharedPreferences.getInt(_PreferenceKeys.darkColorB);
+        _sharedPreferences!.getInt(_PreferenceKeys.darkColorB);
     if (darkColorR != null && darkColorG != null && darkColorB != null) {
       _darkColor = Color.fromRGBO(darkColorR, darkColorG, darkColorB, 1.0);
+      shouldNotifyListeners = true;
     }
 
     // Read lightColor.
     final int? lightColorR =
-        _sharedPreferences.getInt(_PreferenceKeys.lightColorR);
+        _sharedPreferences!.getInt(_PreferenceKeys.lightColorR);
     final int? lightColorG =
-        _sharedPreferences.getInt(_PreferenceKeys.lightColorG);
+        _sharedPreferences!.getInt(_PreferenceKeys.lightColorG);
     final int? lightColorB =
-        _sharedPreferences.getInt(_PreferenceKeys.lightColorB);
+        _sharedPreferences!.getInt(_PreferenceKeys.lightColorB);
     if (lightColorR != null && lightColorG != null && lightColorB != null) {
       _lightColor = Color.fromRGBO(lightColorR, lightColorG, lightColorB, 1.0);
+      shouldNotifyListeners = true;
     }
 
-    notifyListeners();
+    if (shouldNotifyListeners) notifyListeners();
   }
 
   /// Sets [darkColor] and saves to disk.
-  Future<void> _setDarkColor(Color color) async {
-    await _sharedPreferences.setInt(_PreferenceKeys.darkColorR, color.red);
-    await _sharedPreferences.setInt(_PreferenceKeys.darkColorG, color.green);
-    await _sharedPreferences.setInt(_PreferenceKeys.darkColorB, color.blue);
+  Future<void> setDarkColor(Color color) async {
+    if (_sharedPreferences == null) return;
 
-    _darkColor = darkColor;
+    await _sharedPreferences!.setInt(_PreferenceKeys.darkColorR, color.red);
+    await _sharedPreferences!.setInt(_PreferenceKeys.darkColorG, color.green);
+    await _sharedPreferences!.setInt(_PreferenceKeys.darkColorB, color.blue);
+
+    _darkColor = color;
 
     notifyListeners();
   }
 
   /// Sets [lightColor] and saves to disk.
-  Future<void> _setLightColor(Color color) async {
-    await _sharedPreferences.setInt(_PreferenceKeys.lightColorR, color.red);
-    await _sharedPreferences.setInt(_PreferenceKeys.lightColorG, color.green);
-    await _sharedPreferences.setInt(_PreferenceKeys.lightColorB, color.blue);
+  Future<void> setLightColor(Color color) async {
+    if (_sharedPreferences == null) return;
 
-    _lightColor = lightColor;
+    await _sharedPreferences!.setInt(_PreferenceKeys.lightColorR, color.red);
+    await _sharedPreferences!.setInt(_PreferenceKeys.lightColorG, color.green);
+    await _sharedPreferences!.setInt(_PreferenceKeys.lightColorB, color.blue);
+
+    _lightColor = color;
 
     notifyListeners();
   }
@@ -106,22 +103,30 @@ class Preferences extends ChangeNotifier {
     required Color darkColor,
     required Color lightColor,
   }) async {
-    await _sharedPreferences.setInt(_PreferenceKeys.darkColorR, darkColor.red);
-    await _sharedPreferences.setInt(
+    if (_sharedPreferences == null) return;
+
+    await _sharedPreferences!.setInt(
+      _PreferenceKeys.darkColorR,
+      darkColor.red,
+    );
+    await _sharedPreferences!.setInt(
       _PreferenceKeys.darkColorG,
       darkColor.green,
     );
-    await _sharedPreferences.setInt(_PreferenceKeys.darkColorB, darkColor.blue);
+    await _sharedPreferences!.setInt(
+      _PreferenceKeys.darkColorB,
+      darkColor.blue,
+    );
 
-    await _sharedPreferences.setInt(
+    await _sharedPreferences!.setInt(
       _PreferenceKeys.lightColorR,
       lightColor.red,
     );
-    await _sharedPreferences.setInt(
+    await _sharedPreferences!.setInt(
       _PreferenceKeys.lightColorG,
       lightColor.green,
     );
-    await _sharedPreferences.setInt(
+    await _sharedPreferences!.setInt(
       _PreferenceKeys.lightColorB,
       lightColor.blue,
     );
