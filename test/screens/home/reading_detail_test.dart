@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:singapore_weather/config.dart';
 import 'package:singapore_weather/models/reading.dart';
 import 'package:singapore_weather/models/source.dart';
 import 'package:singapore_weather/screens/home/reading_detail.dart';
@@ -42,8 +41,7 @@ main() {
       );
     });
 
-    testWidgets(
-        'out-of-bound => first icon / text color == detailsProblemColor',
+    testWidgets('out-of-bound => first icon / text color == headline color',
         (WidgetTester tester) async {
       final Reading reading = Reading(
         creation: DateTime.now(),
@@ -66,15 +64,14 @@ main() {
       final WrappedIcon icon =
           tester.firstElement(find.byType(WrappedIcon)).widget as WrappedIcon;
 
-      expect(icon.color, equals(detailsProblemColor));
+      expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
 
       final Text text = tester.firstElement(find.byType(Text)).widget as Text;
 
-      expect(text.style!.color, equals(detailsProblemColor));
+      expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
     });
 
-    testWidgets(
-        'out-of-range => second icon / text color == detailsProblemColor',
+    testWidgets('out-of-range => second icon / text color == headline color',
         (WidgetTester tester) async {
       final Reading reading = Reading(
         creation: DateTime.now(),
@@ -99,15 +96,15 @@ main() {
           .elementAt(1)
           .widget as WrappedIcon;
 
-      expect(icon.color, equals(detailsProblemColor));
+      expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
 
       final Text text =
           tester.elementList(find.byType(Text)).elementAt(1).widget as Text;
 
-      expect(text.style!.color, equals(detailsProblemColor));
+      expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
     });
 
-    testWidgets('expired => third icon / text color == detailsProblemColor',
+    testWidgets('expired => third icon / text color == headline color',
         (WidgetTester tester) async {
       final Reading reading = Reading(
         creation: DateTime.now().subtract(const Duration(days: 1)),
@@ -132,12 +129,12 @@ main() {
           .last
           .widget as WrappedIcon;
 
-      expect(icon.color, equals(detailsProblemColor));
+      expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
 
       final Text text =
           tester.elementList(find.byType(Text)).last.widget as Text;
 
-      expect(text.style!.color, equals(detailsProblemColor));
+      expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
     });
   });
 }

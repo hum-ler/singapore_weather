@@ -113,7 +113,10 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                               fontWeight: FontWeight.bold,
                               color: data.temperature!.isValid
                                   ? null
-                                  : K.summaryProblemColor,
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .color,
                             ),
                           ),
                         if (data.condition != null)
@@ -122,7 +125,7 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                             size: 96.0,
                             color: data.condition!.isValid
                                 ? null
-                                : K.summaryProblemColor,
+                                : Theme.of(context).textTheme.headline1!.color,
                           ),
                       ],
                     ),
@@ -141,12 +144,18 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
                               iconSize: 48.0,
                               iconColor: forecast.isValid
                                   ? null
-                                  : K.summaryProblemColor,
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .color,
                               labelStyle: TextStyle(
                                 fontSize: 14.0,
                                 color: forecast.isValid
                                     ? null
-                                    : K.summaryProblemColor,
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .headline1!
+                                        .color,
                               ),
                             ),
                         ],

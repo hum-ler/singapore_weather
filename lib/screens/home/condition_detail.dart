@@ -43,7 +43,9 @@ class ConditionDetail extends StatelessWidget {
             WrappedIcon(
               Icons.place,
               size: 10.0,
-              color: condition.isNearby ? null : K.detailsProblemColor,
+              color: condition.isNearby
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
             ),
             Text(
               condition.source.name.truncate(
@@ -56,20 +58,26 @@ class ConditionDetail extends StatelessWidget {
                   ')',
               style: TextStyle(
                 fontSize: 12.0,
-                color: condition.isNearby ? null : K.detailsProblemColor,
+                color: condition.isNearby
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
               ),
             ),
             SizedBox(width: 4.0),
             WrappedIcon(
               Icons.schedule,
               size: 10.0,
-              color: condition.isExpired ? K.detailsProblemColor : null,
+              color: !condition.isExpired
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
             ),
             Text(
               condition.creation.format(),
               style: TextStyle(
                 fontSize: 12.0,
-                color: condition.isExpired ? K.detailsProblemColor : null,
+                color: !condition.isExpired
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
               ),
             ),
           ],

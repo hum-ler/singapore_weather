@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:singapore_weather/config.dart';
 import 'package:singapore_weather/generated/l10n.dart';
 import 'package:singapore_weather/models/condition.dart';
 import 'package:singapore_weather/models/forecast.dart';
@@ -131,7 +130,7 @@ main() {
       expect(text.style!.color, isNull);
     });
 
-    testWidgets('invalid temperature => text color == summaryProblemColor',
+    testWidgets('invalid temperature => text color == headline color',
         (WidgetTester tester) async {
       final WeatherModel data = WeatherModel();
       data.update(
@@ -170,7 +169,7 @@ main() {
 
       final Text text = tester.element(find.text('99°')).widget as Text;
 
-      expect(text.style!.color, equals(summaryProblemColor));
+      expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
     });
 
     testWidgets('valid condition => icon color == null',
@@ -215,7 +214,7 @@ main() {
       expect(icon.color, isNull);
     });
 
-    testWidgets('invalid condition => icon color == summaryProblemColor',
+    testWidgets('invalid condition => icon color == headline color',
         (WidgetTester tester) async {
       final WeatherModel data = WeatherModel();
       data.update(
@@ -254,7 +253,7 @@ main() {
       final WrappedIcon icon =
           tester.element(find.byType(WrappedIcon)).widget as WrappedIcon;
 
-      expect(icon.color, equals(summaryProblemColor));
+      expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
     });
 
     testWidgets('valid forecast => all icon / text color == null',
@@ -327,7 +326,7 @@ main() {
       );
     });
 
-    testWidgets('invalid forecast => icon / text color == summaryProblemColor',
+    testWidgets('invalid forecast => icon / text color == headline color',
         (WidgetTester tester) async {
       final WeatherModel data = WeatherModel();
       data.update(
@@ -389,12 +388,12 @@ main() {
           .elementAt(1)
           .widget as WrappedIcon;
 
-      expect(icon.color, equals(summaryProblemColor));
+      expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
 
       final Text text =
           tester.elementList(find.byType(Text)).elementAt(1).widget as Text;
 
-      expect(text.style!.color, equals(summaryProblemColor));
+      expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
     });
   });
 }

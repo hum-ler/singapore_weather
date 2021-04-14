@@ -34,7 +34,9 @@ class ReadingDetail extends StatelessWidget {
               rotation: reading.type == ReadingType.windDirection
                   ? degreesToRadians(reading.value.toDouble())
                   : null,
-              color: reading.isInBounds ? null : K.detailsProblemColor,
+              color: reading.isInBounds
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
             ),
             Text(
               ' ' + // give some extra space
@@ -42,14 +44,18 @@ class ReadingDetail extends StatelessWidget {
                   reading.unit,
               style: TextStyle(
                 fontSize: 12.0,
-                color: reading.isInBounds ? null : K.detailsProblemColor,
+                color: reading.isInBounds
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
               ),
             ),
             SizedBox(width: 4.0),
             WrappedIcon(
               Icons.place,
               size: 10.0,
-              color: reading.isNearby ? null : K.detailsProblemColor,
+              color: reading.isNearby
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
             ),
             Text(
               reading.source.name
@@ -64,20 +70,26 @@ class ReadingDetail extends StatelessWidget {
                   ')',
               style: TextStyle(
                 fontSize: 12.0,
-                color: reading.isNearby ? null : K.detailsProblemColor,
+                color: reading.isNearby
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
               ),
             ),
             SizedBox(width: 4.0),
             WrappedIcon(
               Icons.schedule,
               size: 10.0,
-              color: reading.isExpired ? K.detailsProblemColor : null,
+              color: !reading.isExpired
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
             ),
             Text(
               reading.creation.format(),
               style: TextStyle(
                 fontSize: 12.0,
-                color: reading.isExpired ? K.detailsProblemColor : null,
+                color: !reading.isExpired
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
               ),
             ),
           ],

@@ -107,18 +107,6 @@ const int detailsSourceNameLength = 18;
 /// The ellipsis that is displayed when a string is truncated.
 const String truncationEllipsis = '…';
 
-/// The color for details that are problematic (out-of-bound / -range /
-/// expired).
-final Color detailsProblemColor = Colors.grey.shade600;
-
-//#endregion
-
-//#region screens/home/summary
-
-/// The color for summary elements that are problematic (out-of-bound / -range /
-/// expired).
-final Color summaryProblemColor = Colors.grey.shade600;
-
 //#endregion
 
 //#region screens/island
@@ -130,14 +118,6 @@ const AssetImage islandImage = AssetImage('assets/images/island.png');
 
 /// The hero tag for [islandImage].
 const String islandImageTag = 'island';
-
-//#endregion
-
-//#region screens/island/forecast_row
-
-/// The color for island screen elements that are problematic (out-of-bound /
-/// -range / expired).
-final Color islandProblemColor = Colors.grey.shade600;
 
 //#endregion
 
