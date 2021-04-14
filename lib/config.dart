@@ -134,9 +134,13 @@ final Map<Color, List<Color>> supportedThemes = {
     appDarkColor, // Colors.black
     appLightColor, // Colors.white
   ],
-  Colors.pink.shade500: [
-    Colors.pink.shade500,
+  Colors.pink.shade600: [
+    Colors.pink.shade600,
     Colors.pink.shade100,
+  ],
+  Colors.red.shade500: [
+    Colors.red.shade500,
+    Colors.red.shade100,
   ],
   Colors.deepOrange.shade500: [
     Colors.deepOrange.shade500,
@@ -148,7 +152,7 @@ final Map<Color, List<Color>> supportedThemes = {
   ],
   Colors.lightBlue.shade900: [
     Colors.lightBlue.shade900,
-    Colors.lightBlue.shade300,
+    Colors.lightBlue.shade200,
   ],
   Colors.blueGrey.shade700: [
     Colors.blueGrey.shade700,
