@@ -9,6 +9,7 @@ import '../models/json_24_hour_forecast_model.dart';
 import '../models/json_2_hour_forecast_model.dart';
 import '../models/json_pm2_5_model.dart';
 import '../models/json_reading_model.dart';
+import '../models/next_day_prediction.dart';
 import '../models/reading.dart';
 import '../models/source.dart';
 import '../models/weather_model.dart';
@@ -110,6 +111,7 @@ class Weather {
       data: forecastModel,
       userLocation: userLocation,
     );
+    final NextDayPrediction prediction = _derivePrediction(data: forecastModel);
 
     _data.refresh(
       timestamp: DateTime.now(),
@@ -122,6 +124,7 @@ class Weather {
       condition: condition,
       region: region,
       forecast: forecast,
+      prediction: prediction,
     );
   }
 
@@ -405,6 +408,54 @@ class Weather {
     });
 
     return forecast;
+  }
+
+  /// Forms the next-day prediction.
+  ///
+  /// If [data] contains invalid content, a [WeatherException] will be thrown.
+  NextDayPrediction _derivePrediction({required Json24HourForecastModel data}) {
+    // Catch bad raw data.
+    if (data.apiInfo.status != 'healthy') {
+      throw WeatherException(S.current.weatherExceptionUnexpectedForecast);
+    }
+    if (data.items.isEmpty) {
+      throw WeatherException(S.current.weatherExceptionUnexpectedForecast);
+    }
+
+    // Get the wind direction, if available. The value from the data service is
+    // often "VARIABLE" and this will be translated as null.
+    final num? generalWindDirection =
+        cardinalDirectionToAzimuth(data.items.first.general.wind.direction);
+
+    return NextDayPrediction(
+      creation: data.items.first.timestamp.toSgt(),
+      startTime: data.items.first.validPeriod.start.toSgt(),
+      temperature: NextDayPredictionRange(
+        type: NextDayPredictionType.temperature,
+        high: data.items.first.general.temperature.high,
+        low: data.items.first.general.temperature.low,
+      ),
+      humidity: NextDayPredictionRange(
+        type: NextDayPredictionType.humidity,
+        high: data.items.first.general.relativeHumidity.high,
+        low: data.items.first.general.relativeHumidity.low,
+      ),
+      windSpeed: NextDayPredictionRange(
+        type: NextDayPredictionType.windSpeed,
+        high: knotsToMetersPerSecond(
+          data.items.first.general.wind.speed.high.toDouble(),
+        ),
+        low: knotsToMetersPerSecond(
+          data.items.first.general.wind.speed.low.toDouble(),
+        ),
+      ),
+      generalWindDirection: generalWindDirection != null
+          ? NextDayPredictionValue(
+              type: NextDayPredictionType.generalWindDirection,
+              average: generalWindDirection,
+            )
+          : null,
+    );
   }
 }
 

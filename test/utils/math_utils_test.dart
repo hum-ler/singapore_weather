@@ -21,4 +21,10 @@ void main() {
     expect(knotsToMetersPerSecond(0.0), moreOrLessEquals(0.0));
     expect(knotsToMetersPerSecond(1.0), moreOrLessEquals(0.514444));
   });
+
+  test('cardinalDirectionToAzimuth()', () {
+    expect(cardinalDirectionToAzimuth('SSE'), moreOrLessEquals(157.5));
+    expect(cardinalDirectionToAzimuth('sse'), moreOrLessEquals(157.5));
+    expect(cardinalDirectionToAzimuth(''), isNull);
+  });
 }

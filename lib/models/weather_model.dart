@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import 'condition.dart';
 import 'forecast.dart';
+import 'next_day_prediction.dart';
 import 'reading.dart';
 import 'source.dart';
 
@@ -37,6 +38,9 @@ class WeatherModel extends ChangeNotifier {
   /// The weather forecast.
   Map<Source, Iterable<Forecast>>? _forecast;
 
+  /// The prediction of values for the next day.
+  NextDayPrediction? _prediction;
+
   /// The timestamp of the last modification.
   DateTime? get timestamp => _timestamp;
 
@@ -67,6 +71,9 @@ class WeatherModel extends ChangeNotifier {
   /// The weather forecast.
   Map<Source, Iterable<Forecast>>? get forecast => _forecast;
 
+  /// The prediction of values for the next day.
+  NextDayPrediction? get prediction => _prediction;
+
   /// Resets all fields to null.
   void clear() {
     _timestamp = null;
@@ -79,6 +86,7 @@ class WeatherModel extends ChangeNotifier {
     _condition = null;
     _region = null;
     _forecast = null;
+    _prediction = null;
 
     notifyListeners();
   }
@@ -95,6 +103,7 @@ class WeatherModel extends ChangeNotifier {
     required Condition? condition,
     required Source? region,
     required Map<Source, Iterable<Forecast>>? forecast,
+    required NextDayPrediction? prediction,
   }) {
     _timestamp = timestamp;
     _temperature = temperature;
@@ -106,6 +115,7 @@ class WeatherModel extends ChangeNotifier {
     _condition = condition;
     _region = region;
     _forecast = forecast;
+    _prediction = prediction;
 
     notifyListeners();
   }
@@ -125,6 +135,7 @@ class WeatherModel extends ChangeNotifier {
     Condition? condition,
     Source? region,
     Map<Source, Iterable<Forecast>>? forecast,
+    NextDayPrediction? prediction,
   }) {
     _timestamp = timestamp;
     if (temperature != null) _temperature = temperature;
@@ -136,6 +147,7 @@ class WeatherModel extends ChangeNotifier {
     if (condition != null) _condition = condition;
     if (region != null) _region = region;
     if (forecast != null) _forecast = forecast;
+    if (prediction != null) _prediction = prediction;
 
     notifyListeners();
   }
