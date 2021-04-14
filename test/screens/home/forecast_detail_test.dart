@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:singapore_weather/config.dart';
 import 'package:singapore_weather/generated/l10n.dart';
 import 'package:singapore_weather/models/forecast.dart';
 import 'package:singapore_weather/models/source.dart';
@@ -45,8 +44,7 @@ main() {
       );
     });
 
-    testWidgets(
-        'out-of-range => third icon / text color == detailsProblemColor',
+    testWidgets('out-of-range => third icon / text color == headline color',
         (WidgetTester tester) async {
       final Forecast forecast = Forecast(
         creation: DateTime.now(),
@@ -73,12 +71,12 @@ main() {
           .last
           .widget as WrappedIcon;
 
-      expect(icon.color, equals(detailsProblemColor));
+      expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
 
       final Text text =
           tester.elementList(find.byType(Text)).last.widget as Text;
 
-      expect(text.style!.color, equals(detailsProblemColor));
+      expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
     });
   });
 }

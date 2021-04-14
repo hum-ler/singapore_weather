@@ -107,18 +107,6 @@ const int detailsSourceNameLength = 18;
 /// The ellipsis that is displayed when a string is truncated.
 const String truncationEllipsis = '…';
 
-/// The color for details that are problematic (out-of-bound / -range /
-/// expired).
-final Color detailsProblemColor = Colors.grey.shade600;
-
-//#endregion
-
-//#region screens/home/summary
-
-/// The color for summary elements that are problematic (out-of-bound / -range /
-/// expired).
-final Color summaryProblemColor = Colors.grey.shade600;
-
 //#endregion
 
 //#region screens/island
@@ -130,14 +118,6 @@ const AssetImage islandImage = AssetImage('assets/images/island.png');
 
 /// The hero tag for [islandImage].
 const String islandImageTag = 'island';
-
-//#endregion
-
-//#region screens/island/forecast_row
-
-/// The color for island screen elements that are problematic (out-of-bound /
-/// -range / expired).
-final Color islandProblemColor = Colors.grey.shade600;
 
 //#endregion
 
@@ -154,9 +134,13 @@ final Map<Color, List<Color>> supportedThemes = {
     appDarkColor, // Colors.black
     appLightColor, // Colors.white
   ],
-  Colors.pink.shade500: [
-    Colors.pink.shade500,
+  Colors.pink.shade600: [
+    Colors.pink.shade600,
     Colors.pink.shade100,
+  ],
+  Colors.red.shade500: [
+    Colors.red.shade500,
+    Colors.red.shade100,
   ],
   Colors.deepOrange.shade500: [
     Colors.deepOrange.shade500,
@@ -168,7 +152,7 @@ final Map<Color, List<Color>> supportedThemes = {
   ],
   Colors.lightBlue.shade900: [
     Colors.lightBlue.shade900,
-    Colors.lightBlue.shade300,
+    Colors.lightBlue.shade200,
   ],
   Colors.blueGrey.shade700: [
     Colors.blueGrey.shade700,

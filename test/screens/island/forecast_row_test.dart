@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:singapore_weather/config.dart';
 import 'package:singapore_weather/generated/l10n.dart';
 import 'package:singapore_weather/models/forecast.dart';
 import 'package:singapore_weather/models/source.dart';
@@ -59,7 +58,7 @@ main() {
     );
   });
 
-  testWidgets('invalid forecast => all icon / text color == islandProblemColor',
+  testWidgets('invalid forecast => all icon / text color == headline color',
       (WidgetTester tester) async {
     final List<Forecast> forecast = [
       Forecast(
@@ -102,12 +101,12 @@ main() {
         .elementAt(1)
         .widget as WrappedIcon;
 
-    expect(icon.color, equals(islandProblemColor));
+    expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
 
     final Text text =
         tester.elementList(find.byType(Text)).elementAt(1).widget as Text;
 
-    expect(text.style!.color, equals(islandProblemColor));
+    expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
   });
 
   testWidgets('icon size is smaller when forecast.length == 4',
