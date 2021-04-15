@@ -5,9 +5,11 @@ extension DateTimeExt on DateTime {
   DateTime toSgt() {
     assert(this.isUtc);
 
+    this.add(const Duration(hours: 8));
+
     // Return a new DateTime to get of the isUtc flag.
     return DateTime.fromMicrosecondsSinceEpoch(
-      this.add(const Duration(hours: 8)).microsecondsSinceEpoch,
+      this.microsecondsSinceEpoch,
       isUtc: false,
     );
   }
