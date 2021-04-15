@@ -17,6 +17,10 @@ import 'settings.dart';
 ///
 /// If the injected weather data is empty, a load is triggered after building.
 class Home extends StatelessWidget {
+  // Keys for ExpandableBottomSheet.
+  final UniqueKey _key1 = UniqueKey();
+  final UniqueKey _key2 = UniqueKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,11 +46,11 @@ class Home extends StatelessWidget {
           // The main body.
           Consumer<WeatherModel>(
             builder: (context, data, child) {
-              // Force the recreation of ExpandableBottomSheet every time the
-              // orientation is changed.
+              // Use separate instances of ExpandableBottomSheet for each
+              // orientation.
               return MediaQuery.of(context).orientation == Orientation.portrait
                   ? ExpandableBottomSheet(
-                      key: UniqueKey(),
+                      key: _key1,
                       animationCurveExpand: Curves.elasticOut,
                       animationDurationExtend:
                           const Duration(milliseconds: 300),
@@ -62,7 +66,7 @@ class Home extends StatelessWidget {
                       expandableContent: Details(),
                     )
                   : ExpandableBottomSheet(
-                      key: UniqueKey(),
+                      key: _key2,
                       animationCurveExpand: Curves.elasticOut,
                       animationDurationExtend:
                           const Duration(milliseconds: 300),
