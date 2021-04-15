@@ -18,7 +18,6 @@ main() {
       final MockPreferences prefs = MockPreferences();
       when(prefs.darkColor).thenReturn(supportedThemes.entries.first.value[0]);
       when(prefs.lightColor).thenReturn(supportedThemes.entries.first.value[1]);
-      when(prefs.dispose()).thenReturn(null);
 
       await tester.pumpWidget(
         ChangeNotifierProvider<Preferences>.value(
@@ -60,7 +59,6 @@ main() {
       final MockPreferences prefs = MockPreferences();
       when(prefs.darkColor).thenReturn(supportedThemes.entries.first.value[0]);
       when(prefs.lightColor).thenReturn(supportedThemes.entries.first.value[1]);
-      when(prefs.dispose()).thenReturn(null);
 
       await tester.pumpWidget(
         ChangeNotifierProvider<Preferences>.value(
