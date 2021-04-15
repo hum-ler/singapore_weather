@@ -25,19 +25,19 @@ main() {
       when(weather.refresh(any)).thenThrow(GeolocationException(''));
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => WeatherModel(),
-              ),
-              Provider<Weather>(
-                create: (context) => weather,
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>(
+              create: (context) => WeatherModel(),
+            ),
+            Provider<Weather>.value(
+              value: weather,
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(),
             ),
           ),
@@ -59,19 +59,19 @@ main() {
       when(weather.refresh(any)).thenThrow(WeatherException(''));
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => WeatherModel(),
-              ),
-              Provider<Weather>(
-                create: (context) => weather,
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>(
+              create: (context) => WeatherModel(),
+            ),
+            Provider<Weather>.value(
+              value: weather,
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(),
             ),
           ),
@@ -103,19 +103,19 @@ main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => data,
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(refreshDataAtStartUp: false),
             ),
           ),
@@ -145,19 +145,19 @@ main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => data,
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(refreshDataAtStartUp: false),
             ),
           ),
@@ -186,19 +186,19 @@ main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => data,
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(refreshDataAtStartUp: false),
             ),
           ),
@@ -228,19 +228,19 @@ main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => data,
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(refreshDataAtStartUp: false),
             ),
           ),
@@ -290,19 +290,19 @@ main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => data,
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(refreshDataAtStartUp: false),
             ),
           ),
@@ -360,19 +360,19 @@ main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => data,
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Scaffold(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Scaffold(
               body: Summary(refreshDataAtStartUp: false),
             ),
           ),
