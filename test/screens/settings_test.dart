@@ -21,8 +21,8 @@ main() {
       when(prefs.dispose()).thenReturn(null);
 
       await tester.pumpWidget(
-        ChangeNotifierProvider<Preferences>(
-          create: (context) => prefs,
+        ChangeNotifierProvider<Preferences>.value(
+          value: prefs,
           child: MaterialApp(
             localizationsDelegates: [S.delegate],
             locale: const Locale('en'),
@@ -63,8 +63,8 @@ main() {
       when(prefs.dispose()).thenReturn(null);
 
       await tester.pumpWidget(
-        ChangeNotifierProvider<Preferences>(
-          create: (context) => prefs,
+        ChangeNotifierProvider<Preferences>.value(
+          value: prefs,
           child: MaterialApp(
             localizationsDelegates: [S.delegate],
             locale: const Locale('en'),

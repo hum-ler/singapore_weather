@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:singapore_weather/models/condition.dart';
 import 'package:singapore_weather/models/forecast.dart';
 import 'package:singapore_weather/models/geoposition.dart';
+import 'package:singapore_weather/models/next_day_prediction.dart';
 import 'package:singapore_weather/models/reading.dart';
 import 'package:singapore_weather/models/source.dart';
 import 'package:singapore_weather/models/weather_model.dart';
@@ -36,6 +37,14 @@ main() {
     );
     final Source region = Sources.central;
     final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
 
     weatherModel.refresh(
       timestamp: DateTime.now(),
@@ -48,6 +57,7 @@ main() {
       condition: condition,
       region: region,
       forecast: forecast,
+      prediction: prediction,
     );
 
     expect(completer.isCompleted, isTrue);
@@ -76,6 +86,7 @@ main() {
     expect(weatherModel.condition, isNull);
     expect(weatherModel.region, isNull);
     expect(weatherModel.forecast, isNull);
+    expect(weatherModel.prediction, isNull);
 
     final Reading reading = Reading(
       type: ReadingType.temperature,
@@ -92,6 +103,14 @@ main() {
     );
     final Source region = Sources.central;
     final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
     weatherModel.refresh(
       timestamp: DateTime.now(),
       temperature: reading,
@@ -103,6 +122,7 @@ main() {
       condition: condition,
       region: region,
       forecast: forecast,
+      prediction: prediction,
     );
     weatherModel.clear();
 
@@ -116,6 +136,7 @@ main() {
     expect(weatherModel.condition, isNull);
     expect(weatherModel.region, isNull);
     expect(weatherModel.forecast, isNull);
+    expect(weatherModel.prediction, isNull);
   });
 
   test('WeatherModel.refresh()', () {
@@ -136,6 +157,14 @@ main() {
     );
     final Source region = Sources.central;
     final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
     weatherModel.refresh(
       timestamp: timestamp,
       temperature: reading,
@@ -147,6 +176,7 @@ main() {
       condition: condition,
       region: region,
       forecast: forecast,
+      prediction: prediction,
     );
 
     expect(weatherModel.timestamp, equals(timestamp));
@@ -159,6 +189,7 @@ main() {
     expect(weatherModel.condition, equals(condition));
     expect(weatherModel.region, equals(region));
     expect(weatherModel.forecast, equals(forecast));
+    expect(weatherModel.prediction, equals(prediction));
   });
 
   test('WeatherModel.update()', () {
@@ -179,6 +210,14 @@ main() {
     );
     final Source region = Sources.central;
     final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
     weatherModel.update(
       timestamp: timestamp,
       temperature: reading,
@@ -190,6 +229,7 @@ main() {
       condition: condition,
       region: region,
       forecast: forecast,
+      prediction: prediction,
     );
 
     expect(weatherModel.timestamp, equals(timestamp));
@@ -202,5 +242,6 @@ main() {
     expect(weatherModel.condition, equals(condition));
     expect(weatherModel.region, equals(region));
     expect(weatherModel.forecast, equals(forecast));
+    expect(weatherModel.prediction, equals(prediction));
   });
 }

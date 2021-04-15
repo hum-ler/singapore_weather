@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../config.dart' as K;
 import '../generated/l10n.dart';
 import 'island/forecast_grid.dart';
+import 'island/prediction_row.dart';
 
 /// The island-wide forecast screen.
 class Island extends StatelessWidget {
@@ -34,6 +35,9 @@ class Island extends StatelessWidget {
 
           // The forecast icons.
           ForecastGrid(),
+
+          // The next-day prediction values.
+          PredictionRow(),
         ],
       ),
     );

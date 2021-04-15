@@ -270,6 +270,7 @@ main() {
         condition: anyNamed('condition'),
         region: anyNamed('region'),
         forecast: anyNamed('forecast'),
+        prediction: anyNamed('prediction'),
       ));
     });
   });
