@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';
 import 'about.dart';
+import 'home/background.dart';
 import 'home/details.dart';
 import 'home/handle.dart';
 import 'home/island_button.dart';
@@ -41,6 +42,10 @@ class Home extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: [
+          // The background image.
+          Background(),
+
+          // The main body.
           ExpandableBottomSheet(
             animationCurveExpand: Curves.elasticOut,
             animationDurationExtend: const Duration(milliseconds: 300),
@@ -50,6 +55,8 @@ class Home extends StatelessWidget {
             persistentHeader: Handle(),
             expandableContent: Details(),
           ),
+
+          // The island button.
           Positioned(
             top: 20.0,
             right: 20.0,
