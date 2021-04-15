@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
-import '../../config.dart' as K;
 import '../../generated/l10n.dart';
 import '../../models/forecast.dart';
 import '../../models/weather_model.dart';
@@ -11,7 +10,7 @@ import '../../services/weather.dart';
 import 'forecast_tile.dart';
 import 'wrapped_icon.dart';
 
-/// Draws the background and key information on the main screen.
+/// Draws the key information on the main screen.
 class Summary extends StatefulWidget {
   /// Indicates whether to refresh weather data when state is created.
   ///
@@ -84,56 +83,64 @@ class _SummaryState extends State<Summary> with WidgetsBindingObserver {
               minWidth: constraints.maxWidth,
             ),
             child: Consumer<WeatherModel>(
-              builder: (context, data, child) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: data.condition?.background ?? K.defaultAssetImage,
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.6),
-                      BlendMode.srcATop,
-                    ),
+              builder: (context, data, child) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (data.temperature != null)
+                        Text(
+                          '${data.temperature!.value.round()}°',
+                          style: TextStyle(
+                            fontSize: 96.0,
+                            fontWeight: FontWeight.bold,
+                            color: data.temperature!.isValid
+                                ? null
+                                : Theme.of(context).textTheme.headline1!.color,
+                          ),
+                        ),
+                      if (data.condition != null)
+                        WrappedIcon(
+                          data.condition!.icon,
+                          size: 96.0,
+                          color: data.condition!.isValid
+                              ? null
+                              : Theme.of(context).textTheme.headline1!.color,
+                        ),
+                    ],
                   ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  if (data.region != null &&
+                      data.forecast != null &&
+                      data.forecast![data.region] != null)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        if (data.temperature != null)
-                          Text(
-                            '${data.temperature!.value.round()}°',
-                            style: TextStyle(
-                              fontSize: 96.0,
-                              fontWeight: FontWeight.bold,
+                        for (final Forecast forecast
+                            in data.forecast![data.region]!)
+                          ForecastTile(
+                            forecast.icon,
+                            S.of(context).forecastTypeLabel(forecast.type),
+                            iconSize: 48.0,
+                            iconColor: forecast.isValid
+                                ? null
+                                : Theme.of(context).textTheme.headline1!.color,
+                            labelStyle: TextStyle(
+                              fontSize: 14.0,
+                              color: forecast.isValid
+                                  ? null
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .color,
                             ),
-                          ),
-                        if (data.condition != null)
-                          WrappedIcon(
-                            data.condition!.icon,
-                            size: 96.0,
                           ),
                       ],
                     ),
-                    if (data.forecast != null)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          for (final Forecast forecast in data.forecast!)
-                            ForecastTile(
-                              forecast.icon,
-                              S.of(context).forecastTypeLabel(forecast.type),
-                              iconSize: 48.0,
-                              labelStyle: TextStyle(fontSize: 14.0),
-                            ),
-                        ],
-                      ),
-                  ],
-                ),
+                ],
               ),
             ),
           ),

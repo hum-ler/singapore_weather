@@ -57,7 +57,7 @@ class ForecastTile extends StatelessWidget {
         minHeight: minHeight ?? 74.0,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           WrappedIcon(
             icon,

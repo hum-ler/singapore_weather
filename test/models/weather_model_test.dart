@@ -4,12 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:singapore_weather/models/condition.dart';
 import 'package:singapore_weather/models/forecast.dart';
 import 'package:singapore_weather/models/geoposition.dart';
+import 'package:singapore_weather/models/next_day_prediction.dart';
 import 'package:singapore_weather/models/reading.dart';
 import 'package:singapore_weather/models/source.dart';
 import 'package:singapore_weather/models/weather_model.dart';
 
 main() {
-  test('WeatherModel: modification should notify listeners', () {
+  test('WeatherModel: modification => notify listeners', () {
     final WeatherModel weatherModel = WeatherModel();
     Completer completer = Completer();
 
@@ -34,7 +35,16 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
 
     weatherModel.refresh(
       timestamp: DateTime.now(),
@@ -45,12 +55,14 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
+      prediction: prediction,
     );
 
     expect(completer.isCompleted, isTrue);
 
-    // WeatherModel.update*().
+    // WeatherModel.update().
     completer = Completer();
     weatherModel.update(
       timestamp: DateTime.now(),
@@ -72,7 +84,9 @@ main() {
     expect(weatherModel.windDirection, isNull);
     expect(weatherModel.pm2_5, isNull);
     expect(weatherModel.condition, isNull);
+    expect(weatherModel.region, isNull);
     expect(weatherModel.forecast, isNull);
+    expect(weatherModel.prediction, isNull);
 
     final Reading reading = Reading(
       type: ReadingType.temperature,
@@ -87,7 +101,16 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
     weatherModel.refresh(
       timestamp: DateTime.now(),
       temperature: reading,
@@ -97,7 +120,9 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
+      prediction: prediction,
     );
     weatherModel.clear();
 
@@ -109,7 +134,9 @@ main() {
     expect(weatherModel.windDirection, isNull);
     expect(weatherModel.pm2_5, isNull);
     expect(weatherModel.condition, isNull);
+    expect(weatherModel.region, isNull);
     expect(weatherModel.forecast, isNull);
+    expect(weatherModel.prediction, isNull);
   });
 
   test('WeatherModel.refresh()', () {
@@ -128,7 +155,16 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
     weatherModel.refresh(
       timestamp: timestamp,
       temperature: reading,
@@ -138,7 +174,9 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
+      prediction: prediction,
     );
 
     expect(weatherModel.timestamp, equals(timestamp));
@@ -149,7 +187,9 @@ main() {
     expect(weatherModel.windDirection, equals(reading));
     expect(weatherModel.pm2_5, equals(reading));
     expect(weatherModel.condition, equals(condition));
+    expect(weatherModel.region, equals(region));
     expect(weatherModel.forecast, equals(forecast));
+    expect(weatherModel.prediction, equals(prediction));
   });
 
   test('WeatherModel.update()', () {
@@ -168,7 +208,16 @@ main() {
       source: Sources.central,
       userLocation: Geoposition(latitude: 0.0, longitude: 0.0),
     );
-    final List<Forecast> forecast = <Forecast>[];
+    final Source region = Sources.central;
+    final Map<Source, Iterable<Forecast>> forecast = {};
+    final NextDayPrediction prediction = NextDayPrediction(
+      creation: DateTime.now(),
+      startTime: DateTime.now(),
+      temperature: null,
+      humidity: null,
+      windSpeed: null,
+      generalWindDirection: null,
+    );
     weatherModel.update(
       timestamp: timestamp,
       temperature: reading,
@@ -178,7 +227,9 @@ main() {
       windDirection: reading,
       pm2_5: reading,
       condition: condition,
+      region: region,
       forecast: forecast,
+      prediction: prediction,
     );
 
     expect(weatherModel.timestamp, equals(timestamp));
@@ -189,6 +240,8 @@ main() {
     expect(weatherModel.windDirection, equals(reading));
     expect(weatherModel.pm2_5, equals(reading));
     expect(weatherModel.condition, equals(condition));
+    expect(weatherModel.region, equals(region));
     expect(weatherModel.forecast, equals(forecast));
+    expect(weatherModel.prediction, equals(prediction));
   });
 }

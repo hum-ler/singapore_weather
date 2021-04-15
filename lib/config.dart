@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 
-//#region main
-
-const Color appPrimaryColor = Colors.deepOrange;
-
-//#endregion
-
 //#region models/condition
 
 /// The validity period for a condition.
@@ -115,10 +109,87 @@ const String truncationEllipsis = '…';
 
 //#endregion
 
+//#region screens/island
+
+/// The island image asset.
+///
+/// This is a transparent PNG of the silhouette of Singapore island.
+const AssetImage islandImage = AssetImage('assets/images/island.png');
+
+/// The hero tag for [islandImage].
+const String islandImageTag = 'island';
+
+//#endregion
+
+//#region screens/settings
+
+/// The supported themes for the app.
+///
+/// This is a map of (key) dark color => \[dark color, light color\].
+///
+/// To force all values to be Colors, not MaterialColor (this is important for
+/// the map keys), use the 500 shade for MaterialColors.
+final Map<Color, List<Color>> supportedThemes = {
+  Colors.black: [
+    Colors.black,
+    Colors.white,
+  ],
+  Colors.pink.shade600: [
+    Colors.pink.shade600,
+    Colors.pink.shade100,
+  ],
+  Colors.red.shade500: [
+    Colors.red.shade500,
+    Colors.red.shade100,
+  ],
+  appDarkColor: [
+    appDarkColor, // Colors.deepOrange.shade500
+    appLightColor, // Colors.deepOrange.shade200
+  ],
+  Colors.green.shade700: [
+    Colors.green.shade700,
+    Colors.green.shade200,
+  ],
+  Colors.lightBlue.shade900: [
+    Colors.lightBlue.shade900,
+    Colors.lightBlue.shade200,
+  ],
+  Colors.blueGrey.shade700: [
+    Colors.blueGrey.shade700,
+    Colors.blueGrey.shade200,
+  ],
+  Colors.grey.shade800: [
+    Colors.grey.shade800,
+    Colors.grey.shade400,
+  ],
+};
+
+//#endregion
+
 //#region services/geolocation
 
 /// The timeout when calling Location.getLocation().
 const Duration getLocationTimeout = Duration(seconds: 10);
+
+//#endregion
+
+//#region services/preferences
+
+/// The default dark color for the app.
+///
+/// Used as the primary color in the dark theme, and the accent color in the
+/// light theme.
+///
+/// Guaranteed to be inside [supportedThemes].
+final Color appDarkColor = Colors.deepOrange.shade500;
+
+/// The default light color for the app.
+///
+/// Used as the primary color in the light theme, and the accent color in the
+/// dark theme.
+///
+/// Guaranteed to be inside [supportedThemes].
+final Color appLightColor = Colors.deepOrange.shade200;
 
 //#endregion
 

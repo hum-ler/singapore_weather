@@ -2,46 +2,79 @@ import 'package:flutter/foundation.dart';
 
 import 'condition.dart';
 import 'forecast.dart';
+import 'next_day_prediction.dart';
 import 'reading.dart';
+import 'source.dart';
 
 /// Collection of weather data to be maintained in state.
 class WeatherModel extends ChangeNotifier {
+  /// The timestamp of the last modification.
   DateTime? _timestamp;
 
+  /// The temperature reading.
   Reading? _temperature;
 
+  /// The rainfall reading.
   Reading? _rain;
 
+  /// The relative humidity reading.
   Reading? _humidity;
 
+  /// The wind speed reading.
   Reading? _windSpeed;
 
+  /// The wind direction reading.
   Reading? _windDirection;
 
+  /// The PM2.5 reading.
   Reading? _pm2_5;
 
+  /// The weather condition.
   Condition? _condition;
 
-  Iterable<Forecast>? _forecast;
+  /// The nearest region.
+  Source? _region;
 
+  /// The weather forecast.
+  Map<Source, Iterable<Forecast>>? _forecast;
+
+  /// The prediction of values for the next day.
+  NextDayPrediction? _prediction;
+
+  /// The timestamp of the last modification.
   DateTime? get timestamp => _timestamp;
 
+  /// The temperature reading.
   Reading? get temperature => _temperature;
 
+  /// The rainfall reading.
   Reading? get rain => _rain;
 
+  /// The relative humidity reading.
   Reading? get humidity => _humidity;
 
+  /// The wind speed reading.
   Reading? get windSpeed => _windSpeed;
 
+  /// The wind direction reading.
   Reading? get windDirection => _windDirection;
 
+  /// The PM2.5 reading.
   Reading? get pm2_5 => _pm2_5;
 
+  /// The weather condition.
   Condition? get condition => _condition;
 
-  Iterable<Forecast>? get forecast => _forecast;
+  /// The nearest region.
+  Source? get region => _region;
 
+  /// The weather forecast.
+  Map<Source, Iterable<Forecast>>? get forecast => _forecast;
+
+  /// The prediction of values for the next day.
+  NextDayPrediction? get prediction => _prediction;
+
+  /// Resets all fields to null.
   void clear() {
     _timestamp = null;
     _temperature = null;
@@ -51,11 +84,14 @@ class WeatherModel extends ChangeNotifier {
     _windDirection = null;
     _pm2_5 = null;
     _condition = null;
+    _region = null;
     _forecast = null;
+    _prediction = null;
 
     notifyListeners();
   }
 
+  /// Sets all the fields at once.
   void refresh({
     required DateTime timestamp,
     required Reading? temperature,
@@ -65,7 +101,9 @@ class WeatherModel extends ChangeNotifier {
     required Reading? windDirection,
     required Reading? pm2_5,
     required Condition? condition,
-    required Iterable<Forecast>? forecast,
+    required Source? region,
+    required Map<Source, Iterable<Forecast>>? forecast,
+    required NextDayPrediction? prediction,
   }) {
     _timestamp = timestamp;
     _temperature = temperature;
@@ -75,11 +113,17 @@ class WeatherModel extends ChangeNotifier {
     _windDirection = windDirection;
     _pm2_5 = pm2_5;
     _condition = condition;
+    _region = region;
     _forecast = forecast;
+    _prediction = prediction;
 
     notifyListeners();
   }
 
+  /// Updates only the given fields.
+  ///
+  /// If a given argument is null, the underlying field will not be updated. To
+  /// set a field to null, use [clear()] or [refresh()] instead.
   void update({
     required DateTime timestamp,
     Reading? temperature,
@@ -89,7 +133,9 @@ class WeatherModel extends ChangeNotifier {
     Reading? windDirection,
     Reading? pm2_5,
     Condition? condition,
-    Iterable<Forecast>? forecast,
+    Source? region,
+    Map<Source, Iterable<Forecast>>? forecast,
+    NextDayPrediction? prediction,
   }) {
     _timestamp = timestamp;
     if (temperature != null) _temperature = temperature;
@@ -99,7 +145,9 @@ class WeatherModel extends ChangeNotifier {
     if (windDirection != null) _windDirection = windDirection;
     if (pm2_5 != null) _pm2_5 = pm2_5;
     if (condition != null) _condition = condition;
+    if (region != null) _region = region;
     if (forecast != null) _forecast = forecast;
+    if (prediction != null) _prediction = prediction;
 
     notifyListeners();
   }

@@ -28,27 +28,34 @@ class ReadingDetail extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: Row(
           children: [
-            if (reading.type == ReadingType.windDirection)
-              WrappedIcon(
-                reading.icon,
-                size: 10.0,
-                rotation: degreesToRadians(reading.value.toDouble()),
-              )
-            else
-              WrappedIcon(
-                reading.icon,
-                size: 10.0,
-              ),
+            WrappedIcon(
+              reading.icon,
+              size: 10.0,
+              rotation: reading.type == ReadingType.windDirection
+                  ? degreesToRadians(reading.value.toDouble())
+                  : null,
+              color: reading.isInBounds
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
+            ),
             Text(
               ' ' + // give some extra space
                   reading.value.format() +
                   reading.unit,
-              style: TextStyle(fontSize: 12.0),
+              style: TextStyle(
+                fontSize: 12.0,
+                color: reading.isInBounds
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
+              ),
             ),
             SizedBox(width: 4.0),
             WrappedIcon(
               Icons.place,
               size: 10.0,
+              color: reading.isNearby
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
             ),
             Text(
               reading.source.name
@@ -61,16 +68,29 @@ class ReadingDetail extends StatelessWidget {
                   reading.distance.format() +
                   reading.distanceUnit +
                   ')',
-              style: TextStyle(fontSize: 12.0),
+              style: TextStyle(
+                fontSize: 12.0,
+                color: reading.isNearby
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
+              ),
             ),
             SizedBox(width: 4.0),
             WrappedIcon(
               Icons.schedule,
               size: 10.0,
+              color: !reading.isExpired
+                  ? null
+                  : Theme.of(context).textTheme.headline1!.color,
             ),
             Text(
               reading.creation.format(),
-              style: TextStyle(fontSize: 12.0),
+              style: TextStyle(
+                fontSize: 12.0,
+                color: !reading.isExpired
+                    ? null
+                    : Theme.of(context).textTheme.headline1!.color,
+              ),
             ),
           ],
         ),

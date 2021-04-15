@@ -63,7 +63,7 @@ main() {
       expect(weather.refresh(client), throwsA(isA<WeatherException>()));
     });
 
-    test('success => WeatherModel.refresh() called', () async {
+    test('success => WeatherModel.refresh()', () async {
       final String jsonReading = '''
 {
   "metadata": {
@@ -268,7 +268,9 @@ main() {
         windDirection: anyNamed('windDirection'),
         pm2_5: anyNamed('pm2_5'),
         condition: anyNamed('condition'),
+        region: anyNamed('region'),
         forecast: anyNamed('forecast'),
+        prediction: anyNamed('prediction'),
       ));
     });
   });

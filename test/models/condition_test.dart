@@ -110,7 +110,7 @@ void main() {
     expect(condition.isNearby, isFalse);
   });
 
-  test('Condition.isValid: equals .isNearBy and not .isExpired', () {
+  test('Condition.isValid: == isNearBy && !isExpired', () {
     Condition condition = Condition(
       condition: '',
       creation: DateTime.now(),

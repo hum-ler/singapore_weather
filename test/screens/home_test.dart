@@ -7,6 +7,8 @@ import 'package:singapore_weather/generated/l10n.dart';
 import 'package:singapore_weather/models/weather_model.dart';
 import 'package:singapore_weather/screens/about.dart';
 import 'package:singapore_weather/screens/home.dart';
+import 'package:singapore_weather/screens/home/island_button.dart';
+import 'package:singapore_weather/screens/island.dart';
 import 'package:singapore_weather/services/geolocation.dart';
 import 'package:singapore_weather/services/weather.dart';
 
@@ -18,22 +20,22 @@ main() {
     testWidgets('handle drag upwards => expose details',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => WeatherModel(),
-              ),
-              Provider<Geolocation>(
-                create: (context) => MockGeolocation(),
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Home(refreshDataAtStartUp: false),
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>(
+              create: (context) => WeatherModel(),
+            ),
+            Provider<Geolocation>(
+              create: (context) => MockGeolocation(),
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Home(),
           ),
         ),
       );
@@ -67,22 +69,22 @@ main() {
 
     testWidgets('help button tap => about screen', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => WeatherModel(),
-              ),
-              Provider<Geolocation>(
-                create: (context) => MockGeolocation(),
-              ),
-              Provider<Weather>(
-                create: (context) => MockWeather(),
-              ),
-            ],
-            child: Home(refreshDataAtStartUp: false),
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>(
+              create: (context) => WeatherModel(),
+            ),
+            Provider<Geolocation>(
+              create: (context) => MockGeolocation(),
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Home(),
           ),
         ),
       );
@@ -97,27 +99,121 @@ main() {
       expect(find.byType(About), findsOneWidget);
     });
 
-    testWidgets('screen drag downwards => Weather.refresh()',
+    testWidgets('island button tap => about screen',
         (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>(
+              create: (context) => WeatherModel(),
+            ),
+            Provider<Geolocation>(
+              create: (context) => MockGeolocation(),
+            ),
+            Provider<Weather>(
+              create: (context) => MockWeather(),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Home(),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(IslandButton), findsOneWidget);
+      expect(find.byType(Island), findsNothing);
+
+      await tester.tap(find.byType(IslandButton));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Island), findsOneWidget);
+    });
+
+    testWidgets('WeatherModel.timestamp == null => Weather.refresh()',
+        (WidgetTester tester) async {
+      WeatherModel data = WeatherModel();
+      data.update(timestamp: DateTime.now());
+
       MockWeather weather = MockWeather();
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: [S.delegate],
-          locale: const Locale('en'),
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<WeatherModel>(
-                create: (context) => WeatherModel(),
-              ),
-              Provider<Geolocation>(
-                create: (context) => MockGeolocation(),
-              ),
-              Provider<Weather>.value(
-                value: weather,
-              ),
-            ],
-            child: Home(refreshDataAtStartUp: false),
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Geolocation>(
+              create: (context) => MockGeolocation(),
+            ),
+            Provider<Weather>.value(
+              value: weather,
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Home(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      verifyNever(weather.refresh(any));
+
+      data.clear();
+
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Geolocation>(
+              create: (context) => MockGeolocation(),
+            ),
+            Provider<Weather>.value(
+              value: weather,
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Home(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      verify(weather.refresh(any)).called(1);
+    });
+
+    testWidgets('screen drag downwards => Weather.refresh()',
+        (WidgetTester tester) async {
+      WeatherModel data = WeatherModel();
+      data.update(timestamp: DateTime.now());
+
+      MockWeather weather = MockWeather();
+
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WeatherModel>.value(
+              value: data,
+            ),
+            Provider<Geolocation>(
+              create: (context) => MockGeolocation(),
+            ),
+            Provider<Weather>.value(
+              value: weather,
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: [S.delegate],
+            locale: const Locale('en'),
+            home: Home(),
           ),
         ),
       );
