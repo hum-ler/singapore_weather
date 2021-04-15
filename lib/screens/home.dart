@@ -1,8 +1,11 @@
 import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../generated/l10n.dart';
+import '../models/weather_model.dart';
 import 'about.dart';
+import 'home/background.dart';
 import 'home/details.dart';
 import 'home/handle.dart';
 import 'home/island_button.dart';
@@ -11,17 +14,9 @@ import 'island.dart';
 import 'settings.dart';
 
 /// The main screen.
+///
+/// If the injected weather data is empty, a load is triggered after building.
 class Home extends StatelessWidget {
-  /// Indicates whether to refresh weather data when screen is created.
-  ///
-  /// Defaults to true.
-  final bool refreshDataAtStartUp;
-
-  Home({
-    this.refreshDataAtStartUp = true,
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +36,51 @@ class Home extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          ExpandableBottomSheet(
-            animationCurveExpand: Curves.elasticOut,
-            animationDurationExtend: const Duration(milliseconds: 300),
-            animationCurveContract: Curves.elasticOut,
-            animationDurationContract: const Duration(milliseconds: 300),
-            background: Summary(refreshDataAtStartUp: refreshDataAtStartUp),
-            persistentHeader: Handle(),
-            expandableContent: Details(),
+          // The background image.
+          Background(),
+
+          // The main body.
+          Consumer<WeatherModel>(
+            builder: (context, data, child) {
+              // Force the recreation of ExpandableBottomSheet every time the
+              // orientation is changed.
+              return MediaQuery.of(context).orientation == Orientation.portrait
+                  ? ExpandableBottomSheet(
+                      key: UniqueKey(),
+                      animationCurveExpand: Curves.elasticOut,
+                      animationDurationExtend:
+                          const Duration(milliseconds: 300),
+                      animationCurveContract: Curves.elasticOut,
+                      animationDurationContract:
+                          const Duration(milliseconds: 300),
+
+                      // Load data if it is empty.
+                      background:
+                          Summary(refreshDataAtStartUp: data.timestamp == null),
+
+                      persistentHeader: Handle(),
+                      expandableContent: Details(),
+                    )
+                  : ExpandableBottomSheet(
+                      key: UniqueKey(),
+                      animationCurveExpand: Curves.elasticOut,
+                      animationDurationExtend:
+                          const Duration(milliseconds: 300),
+                      animationCurveContract: Curves.elasticOut,
+                      animationDurationContract:
+                          const Duration(milliseconds: 300),
+
+                      // Load data if it is empty.
+                      background:
+                          Summary(refreshDataAtStartUp: data.timestamp == null),
+
+                      persistentHeader: Handle(),
+                      expandableContent: Details(),
+                    );
+            },
           ),
+
+          // The island button.
           Positioned(
             top: 20.0,
             right: 20.0,
