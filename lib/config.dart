@@ -130,9 +130,9 @@ const String islandImageTag = 'island';
 /// To force all values to be Colors, not MaterialColor (this is important for
 /// the map keys), use the 500 shade for MaterialColors.
 final Map<Color, List<Color>> supportedThemes = {
-  appDarkColor: [
-    appDarkColor, // Colors.black
-    appLightColor, // Colors.white
+  Colors.black: [
+    Colors.black,
+    Colors.white,
   ],
   Colors.pink.shade600: [
     Colors.pink.shade600,
@@ -142,9 +142,9 @@ final Map<Color, List<Color>> supportedThemes = {
     Colors.red.shade500,
     Colors.red.shade100,
   ],
-  Colors.deepOrange.shade500: [
-    Colors.deepOrange.shade500,
-    Colors.deepOrange.shade200,
+  appDarkColor: [
+    appDarkColor, // Colors.deepOrange.shade500
+    appLightColor, // Colors.deepOrange.shade200
   ],
   Colors.green.shade700: [
     Colors.green.shade700,
@@ -179,13 +179,17 @@ const Duration getLocationTimeout = Duration(seconds: 10);
 ///
 /// Used as the primary color in the dark theme, and the accent color in the
 /// light theme.
-const Color appDarkColor = Colors.black;
+///
+/// Guaranteed to be inside [supportedThemes].
+final Color appDarkColor = Colors.deepOrange.shade500;
 
 /// The default light color for the app.
 ///
 /// Used as the primary color in the light theme, and the accent color in the
 /// dark theme.
-const Color appLightColor = Colors.white;
+///
+/// Guaranteed to be inside [supportedThemes].
+final Color appLightColor = Colors.deepOrange.shade200;
 
 //#endregion
 
