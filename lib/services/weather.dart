@@ -371,21 +371,20 @@ class Weather {
     data.items.first.periods.forEach((e) {
       // Determine the forecast type.
       ForecastType type;
-      DateTime startTime = e.time.start.toLocal();
-      switch (startTime.hour) {
-        case 0:
+      switch (e.time.start.hour) {
+        case 16:
           type = ForecastType.predawn;
           break;
 
-        case 6:
+        case 22:
           type = ForecastType.morning;
           break;
 
-        case 12:
+        case 4:
           type = ForecastType.afternoon;
           break;
 
-        case 18:
+        case 10:
           type = ForecastType.night;
           break;
 
@@ -427,8 +426,8 @@ class Weather {
         cardinalDirectionToAzimuth(data.items.first.general.wind.direction);
 
     return NextDayPrediction(
-      creation: data.items.first.timestamp.toSgt(),
-      startTime: data.items.first.validPeriod.start.toSgt(),
+      creation: data.items.first.timestamp.toLocal(),
+      startTime: data.items.first.validPeriod.start.toLocal(),
       temperature: NextDayPredictionRange(
         type: NextDayPredictionType.temperature,
         high: data.items.first.general.temperature.high,
