@@ -24,11 +24,12 @@ class ForecastRow extends StatelessWidget {
             f.icon,
             S.of(context).shortForecastTypeLabel(f.type),
             iconSize: forecast.length == 4 ? 20.0 : 24.0,
-            iconColor:
-                f.isValid ? null : Theme.of(context).textTheme.headline1!.color,
+            iconColor: !f.isExpired
+                ? null
+                : Theme.of(context).textTheme.headline1!.color,
             labelStyle: TextStyle(
               fontSize: 12.0,
-              color: f.isValid
+              color: !f.isExpired
                   ? null
                   : Theme.of(context).textTheme.headline1!.color,
             ),

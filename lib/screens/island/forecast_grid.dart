@@ -60,10 +60,10 @@ class ForecastGrid extends StatelessWidget {
               children: [
                 Container(),
                 if (data.forecast != null &&
-                    data.forecast![Sources.west] != null)
+                    data.forecast![Sources.east] != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 24.0),
-                    child: ForecastRow(data.forecast![Sources.west]!),
+                    child: ForecastRow(data.forecast![Sources.east]!),
                   )
                 else
                   Container(),
