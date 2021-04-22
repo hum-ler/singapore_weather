@@ -8,7 +8,7 @@ import 'package:singapore_weather/screens/island/forecast_row.dart';
 
 main() {
   group('ForecastRow:', () {
-    testWidgets('valid forecast => all icon / text color == null',
+    testWidgets('!Forecast.isExpired => all icon / text color == null',
         (WidgetTester tester) async {
       final List<Forecast> forecast = [
         Forecast(
@@ -22,15 +22,15 @@ main() {
           type: ForecastType.afternoon,
           creation: DateTime.now(),
           condition: 'Partly Cloudy (Day)',
-          source: Sources.central,
-          userLocation: Sources.central.location,
+          source: Sources.east,
+          userLocation: Sources.west.location,
         ),
         Forecast(
           type: ForecastType.night,
           creation: DateTime.now(),
           condition: 'Partly Cloudy (Night)',
-          source: Sources.central,
-          userLocation: Sources.central.location,
+          source: Sources.south,
+          userLocation: Sources.north.location,
         ),
       ];
 
@@ -59,7 +59,7 @@ main() {
       );
     });
 
-    testWidgets('invalid forecast => all icon / text color == headline color',
+    testWidgets('Forecast.isExpired => all icon / text color == headline color',
         (WidgetTester tester) async {
       final List<Forecast> forecast = [
         Forecast(
@@ -71,7 +71,7 @@ main() {
         ),
         Forecast(
           type: ForecastType.afternoon,
-          creation: DateTime.now(),
+          creation: DateTime.now().subtract(const Duration(days: 1)),
           condition: 'Partly Cloudy (Day)',
           source: Sources.east,
           userLocation: Sources.west.location,
@@ -80,8 +80,8 @@ main() {
           type: ForecastType.night,
           creation: DateTime.now(),
           condition: 'Partly Cloudy (Night)',
-          source: Sources.central,
-          userLocation: Sources.central.location,
+          source: Sources.south,
+          userLocation: Sources.north.location,
         ),
       ];
 
@@ -97,17 +97,27 @@ main() {
       expect(find.byType(WrappedIcon), findsNWidgets(3));
       expect(find.byType(Text), findsNWidgets(3));
 
-      final WrappedIcon icon = tester
+      WrappedIcon icon = tester
           .elementList(find.byType(WrappedIcon))
           .elementAt(1)
           .widget as WrappedIcon;
 
       expect(icon.color, equals(ThemeData().textTheme.headline1!.color));
 
-      final Text text =
+      Text text =
           tester.elementList(find.byType(Text)).elementAt(1).widget as Text;
 
       expect(text.style!.color, equals(ThemeData().textTheme.headline1!.color));
+
+      // Test isExpired && !isNearby.
+      icon = tester.elementList(find.byType(WrappedIcon)).elementAt(2).widget
+          as WrappedIcon;
+
+      expect(icon.color, isNull);
+
+      text = tester.elementList(find.byType(Text)).elementAt(2).widget as Text;
+
+      expect(text.style!.color, isNull);
     });
 
     testWidgets('icon size is smaller when forecast.length == 4',
