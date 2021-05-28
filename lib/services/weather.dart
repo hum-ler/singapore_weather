@@ -211,6 +211,10 @@ class Weather {
       throw WeatherException(S.current
           .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
     }
+    if (data.items.first.readings.isEmpty) {
+      throw WeatherException(S.current
+          .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
+    }
 
     final DateTime creation = data.items.first.timestamp.toLocal();
 

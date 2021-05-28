@@ -63,6 +63,184 @@ main() {
       expect(weather.refresh(client), throwsA(isA<WeatherException>()));
     });
 
+    test('"empty" reading JSON => WeatherException', () {
+      final String emptyJsonReading = '''{
+  "metadata": {
+    "stations": []
+  },
+  "items": [
+    {
+      "timestamp": "",
+      "readings": []
+    }
+  ],
+  "api_info": {
+    "status": "healthy"
+  }
+}''';
+      final String jsonPM2_5 = '''
+{
+  "region_metadata": [
+    {
+      "name": "west",
+      "label_location": {
+        "latitude": 1.35735,
+        "longitude": 103.7
+      }
+    },
+    {
+      "name": "east",
+      "label_location": {
+        "latitude": 1.35735,
+        "longitude": 103.94
+      }
+    },
+    {
+      "name": "central",
+      "label_location": {
+        "latitude": 1.35735,
+        "longitude": 103.82
+      }
+    },
+    {
+      "name": "south",
+      "label_location": {
+        "latitude": 1.29587,
+        "longitude": 103.82
+      }
+    },
+    {
+      "name": "north",
+      "label_location": {
+        "latitude": 1.41803,
+        "longitude": 103.82
+      }
+    }
+  ],
+  "items": [
+    {
+      "update_timestamp": "2020-06-06T06:06:06+08:00",
+      "timestamp": "2020-06-06T06:06:06+08:00",
+      "readings": {
+        "pm25_one_hourly": {
+          "west": 6,
+          "east": 6,
+          "central": 6,
+          "south": 6,
+          "north": 6
+        }
+      }
+    }
+  ],
+  "api_info": {
+    "status": "healthy"
+  }
+}
+''';
+      final String json2Hour = '''
+{
+  "area_metadata": [
+    {
+      "name": "test",
+      "label_location": {
+        "latitude": 111.111111,
+        "longitude": 222.222222
+      }
+    }
+  ],
+  "items": [
+    {
+      "update_timestamp": "2020-06-06T06:06:06+08:00",
+      "timestamp": "2020-06-06T06:06:06+08:00",
+      "valid_period": {
+        "start": "2020-06-06T06:06:06+08:00",
+        "end": "2020-06-06T08:06:06+08:00"
+      },
+      "forecasts": [
+        {
+          "area": "test",
+          "forecast": "test"
+        }
+      ]
+    }
+  ],
+  "api_info": {
+    "status": "healthy"
+  }
+}
+''';
+      final String json24Hour = '''
+{
+  "items": [
+    {
+      "update_timestamp": "2020-06-06T06:06:06+08:00",
+      "timestamp": "2020-06-06T06:06:06+08:00",
+      "valid_period": {
+        "start": "2020-06-06T06:06:06+08:00",
+        "end": "2020-06-07T06:06:06+08:00"
+      },
+      "general": {
+        "forecast": "test",
+        "relative_humidity": {
+          "low": 70,
+          "high": 90
+        },
+        "temperature": {
+          "low": 20,
+          "high": 30
+        },
+        "wind": {
+          "speed": {
+            "low": 10,
+            "high": 20
+          },
+          "direction": "N"
+        }
+      },
+      "periods": [
+        {
+          "time": {
+            "start": "2020-06-06T06:06:06+08:00",
+            "end": "2020-06-06T12:06:06+08:00"
+          },
+          "regions": {
+            "west": "test",
+            "east": "test",
+            "central": "test",
+            "south": "test",
+            "north": "test"
+          }
+        }
+      ]
+    }
+  ],
+  "api_info": {
+    "status": "healthy"
+  }
+}
+''';
+
+      final WeatherModel data = MockWeatherModel();
+      final Geolocation location = MockGeolocation();
+      when(location.getCurrentLocation()).thenAnswer((_) async => Geoposition(
+            latitude: 111.111111,
+            longitude: 222.222222,
+          ));
+
+      final MockClient client = MockClient();
+      when(client.get(any, headers: anyNamed('headers')))
+          .thenAnswer((invocation) async {
+        String url = (invocation.positionalArguments[0] as Uri).path;
+        if (url.contains('pm25')) return Response(jsonPM2_5, HttpStatus.ok);
+        if (url.contains('2-hour')) return Response(json2Hour, HttpStatus.ok);
+        if (url.contains('24-hour')) return Response(json24Hour, HttpStatus.ok);
+        return Response(emptyJsonReading, HttpStatus.ok);
+      });
+
+      final Weather weather = Weather(data, location);
+      expect(weather.refresh(client), throwsA(isA<WeatherException>()));
+    });
+
     test('success => WeatherModel.refresh()', () async {
       final String jsonReading = '''
 {
