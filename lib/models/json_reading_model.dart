@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'date_time_converter.dart';
+
 part 'json_reading_model.g.dart';
 
 /// Model of the reading data as returned (in JSON) by the weather service.
@@ -28,15 +30,15 @@ class JsonReadingMetadata {
   final List<JsonReadingStation> stations;
 
   @JsonKey(name: 'reading_type')
-  final String readingType;
+  final String? readingType;
 
   @JsonKey(name: 'reading_unit')
-  final String readingUnit;
+  final String? readingUnit;
 
   JsonReadingMetadata({
     required this.stations,
-    required this.readingType,
-    required this.readingUnit,
+    this.readingType,
+    this.readingUnit,
   });
 
   factory JsonReadingMetadata.fromJson(Map<String, dynamic> json) {
@@ -84,6 +86,7 @@ class JsonReadingLocation {
 }
 
 @JsonSerializable()
+@DateTimeConverter()
 class JsonReadingItem {
   final DateTime timestamp;
 

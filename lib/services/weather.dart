@@ -37,80 +37,137 @@ class Weather {
   Future<void> refresh(Client client) async {
     final Geoposition userLocation = await _location.getCurrentLocation();
 
-    final JsonReadingModel temperatureModel = await _fetchJsonReadingModel(
-      client: client,
-      url: K.temperatureUrl,
-    );
-    final JsonReadingModel rainModel = await _fetchJsonReadingModel(
-      client: client,
-      url: K.rainUrl,
-    );
-    final JsonReadingModel humidityModel = await _fetchJsonReadingModel(
-      client: client,
-      url: K.humidityUrl,
-    );
-    final JsonReadingModel windSpeedModel = await _fetchJsonReadingModel(
-      client: client,
-      url: K.windSpeedUrl,
-    );
-    final JsonReadingModel windDirectionModel = await _fetchJsonReadingModel(
-      client: client,
-      url: K.windDirectionUrl,
-    );
-    final JsonPM2_5Model pm2_5Model = await _fetchJsonPM25Model(
-      client: client,
-      url: K.pm2_5Url,
-    );
-    final Json2HourForecastModel conditionModel =
-        await _fetchJson2HourForecastModel(
-      client: client,
-      url: K.forecast2HourUrl,
-    );
-    final Json24HourForecastModel forecastModel =
-        await _fetchJson24HourForecastModel(
-      client: client,
-      url: K.forecast24HourUrl,
-    );
+    // Save up a WeatherException to rethrow after the data model has been
+    // updated.
+    //
+    // Only the very last WeatherException encountered will be thrown.
+    //
+    // Note that only WeatherExceptions are blocked. Any other exception will go
+    // straight through to the caller.
+    WeatherException? exception;
 
-    final Reading temperature = _deriveNearestReading(
-      type: ReadingType.temperature,
-      data: temperatureModel,
-      userLocation: userLocation,
-    );
-    final Reading rain = _deriveNearestReading(
-      type: ReadingType.rain,
-      data: rainModel,
-      userLocation: userLocation,
-    );
-    final Reading humidity = _deriveNearestReading(
-      type: ReadingType.humidity,
-      data: humidityModel,
-      userLocation: userLocation,
-    );
-    final Reading windSpeed = _deriveNearestReading(
-      type: ReadingType.windSpeed,
-      data: windSpeedModel,
-      userLocation: userLocation,
-    );
-    final Reading windDirection = _deriveNearestReading(
-      type: ReadingType.windDirection,
-      data: windDirectionModel,
-      userLocation: userLocation,
-    );
-    final Reading pm2_5 = _deriveNearestPM2_5Reading(
-      data: pm2_5Model,
-      userLocation: userLocation,
-    );
-    final Condition condition = _deriveNearestCondition(
-      data: conditionModel,
-      userLocation: userLocation,
-    );
-    final Source region = _deriveNearestRegion(userLocation: userLocation);
-    final Map<Source, Iterable<Forecast>> forecast = _deriveForecast(
-      data: forecastModel,
-      userLocation: userLocation,
-    );
-    final NextDayPrediction prediction = _derivePrediction(data: forecastModel);
+    Reading? temperature;
+    try {
+      final JsonReadingModel temperatureModel = await _fetchJsonReadingModel(
+        client: client,
+        url: K.temperatureUrl,
+      );
+      temperature = _deriveNearestReading(
+        type: ReadingType.temperature,
+        data: temperatureModel,
+        userLocation: userLocation,
+      );
+    } on WeatherException catch (e) {
+      exception = e;
+    }
+
+    Reading? rain;
+    try {
+      final JsonReadingModel rainModel = await _fetchJsonReadingModel(
+        client: client,
+        url: K.rainUrl,
+      );
+      rain = _deriveNearestReading(
+        type: ReadingType.rain,
+        data: rainModel,
+        userLocation: userLocation,
+      );
+    } on WeatherException catch (e) {
+      exception = e;
+    }
+
+    Reading? humidity;
+    try {
+      final JsonReadingModel humidityModel = await _fetchJsonReadingModel(
+        client: client,
+        url: K.humidityUrl,
+      );
+      humidity = _deriveNearestReading(
+        type: ReadingType.humidity,
+        data: humidityModel,
+        userLocation: userLocation,
+      );
+    } on WeatherException catch (e) {
+      exception = e;
+    }
+
+    Reading? windSpeed;
+    try {
+      final JsonReadingModel windSpeedModel = await _fetchJsonReadingModel(
+        client: client,
+        url: K.windSpeedUrl,
+      );
+      windSpeed = _deriveNearestReading(
+        type: ReadingType.windSpeed,
+        data: windSpeedModel,
+        userLocation: userLocation,
+      );
+    } on WeatherException catch (e) {
+      exception = e;
+    }
+
+    Reading? windDirection;
+    try {
+      final JsonReadingModel windDirectionModel = await _fetchJsonReadingModel(
+        client: client,
+        url: K.windDirectionUrl,
+      );
+      windDirection = _deriveNearestReading(
+        type: ReadingType.windDirection,
+        data: windDirectionModel,
+        userLocation: userLocation,
+      );
+    } on WeatherException catch (e) {
+      exception = e;
+    }
+
+    Reading? pm2_5;
+    try {
+      final JsonPM2_5Model pm2_5Model = await _fetchJsonPM25Model(
+        client: client,
+        url: K.pm2_5Url,
+      );
+      pm2_5 = _deriveNearestPM2_5Reading(
+        data: pm2_5Model,
+        userLocation: userLocation,
+      );
+    } on WeatherException catch (e) {
+      exception = e;
+    }
+
+    Condition? condition;
+    try {
+      final Json2HourForecastModel conditionModel =
+          await _fetchJson2HourForecastModel(
+        client: client,
+        url: K.forecast2HourUrl,
+      );
+      condition = _deriveNearestCondition(
+        data: conditionModel,
+        userLocation: userLocation,
+      );
+    } on WeatherException catch (e) {
+      exception = e;
+    }
+
+    Source? region;
+    Map<Source, Iterable<Forecast>>? forecast;
+    NextDayPrediction? prediction;
+    try {
+      final Json24HourForecastModel forecastModel =
+          await _fetchJson24HourForecastModel(
+        client: client,
+        url: K.forecast24HourUrl,
+      );
+      region = _deriveNearestRegion(userLocation: userLocation);
+      forecast = _deriveForecast(
+        data: forecastModel,
+        userLocation: userLocation,
+      );
+      prediction = _derivePrediction(data: forecastModel);
+    } on WeatherException catch (e) {
+      exception = e;
+    }
 
     _data.refresh(
       timestamp: DateTime.now(),
@@ -125,6 +182,8 @@ class Weather {
       forecast: forecast,
       prediction: prediction,
     );
+
+    if (exception != null) throw exception;
   }
 
   /// Pulls raw reading data from the given data service [url] and returns it as
@@ -208,6 +267,10 @@ class Weather {
           .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
     }
     if (data.items.isEmpty) {
+      throw WeatherException(S.current
+          .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
+    }
+    if (data.items.first.readings.isEmpty) {
       throw WeatherException(S.current
           .weatherExceptionUnexpectedReading(type.toString().asEnumLabel()));
     }
