@@ -54,6 +54,9 @@ void main() {
               contentTextStyle: TextStyle(color: Colors.black),
               actionTextColor: prefs.darkColor,
             ),
+            colorScheme: ColorScheme.light().copyWith(
+              primary: prefs.darkColor,
+            ),
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
@@ -63,6 +66,9 @@ void main() {
               backgroundColor: ThemeData.dark().canvasColor,
               contentTextStyle: TextStyle(color: Colors.white),
               actionTextColor: prefs.lightColor,
+            ),
+            colorScheme: ColorScheme.dark().copyWith(
+              primary: prefs.lightColor,
             ),
           ),
           home: Home(),
